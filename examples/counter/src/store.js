@@ -1,6 +1,6 @@
-import { wrapAsStore } from 'decox'
+import { defineStoreFrom } from 'decox'
 import CounterState from './state'
 
-const CounterStore = wrapAsStore(CounterState)
+const CounterStore = defineStoreFrom(CounterState)
 
 export default new CounterStore()

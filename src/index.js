@@ -1,5 +1,5 @@
-const wrapAsStore = require('./wrapAsStore')
+const defineStoreFrom = require('./defineStoreFrom')
 
 module.exports = {
-  wrapAsStore,
+  defineStoreFrom,
 }

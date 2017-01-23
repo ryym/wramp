@@ -2,14 +2,14 @@ const { EventEmitter } = require('events')
 
 const eventTypes = {
   UPDATE: 'UPDATE',
-  EFFECT: 'EFFECT'
+  EVENT: 'EVENT'
 }
 
 const wrapPrototype = (proto) => {
   const properties = Object.getOwnPropertyNames(proto)
   const methods = properties.filter(p => typeof proto[p] === 'function')
   const updates = methods.filter(p => p[0] === '$' && p[1] !== '$')
-  const effects = methods.filter(p => p[0] === '$' && p[1] === '$')
+  const events = methods.filter(p => p[0] === '$' && p[1] === '$')
 
   const wproto = {}
   updates.forEach(u => {
@@ -19,18 +19,17 @@ const wrapPrototype = (proto) => {
       return returnValue
     }
   })
-  effects.forEach(e => {
+  events.forEach(e => {
     wproto[e] = function(...args) {
-      const returnValue = proto[e].apply(this, args)
-      this._emitter.emit(eventTypes.EFFECT, { method: e, payload: args })
-      return returnValue
+      this._emitter.emit(eventTypes.EVENT, { method: e, payload: args })
+      return proto[e].apply(this, args)
     }
   })
 
   return wproto
 }
 
-function wrapAsStore(Class) {
+function defineStoreFrom(Class) {
   class DecoxStore extends Class {
     constructor(...args) {
       super(...args)
@@ -41,8 +40,8 @@ function wrapAsStore(Class) {
       this._emitter.on(eventTypes.UPDATE, handler)
     }
 
-    onEffect(handler) {
-      this._emitter.on(eventTypes.EFFECT, handler)
+    onEvent(handler) {
+      this._emitter.on(eventTypes.EVENT, handler)
     }
   }
 
@@ -51,4 +50,4 @@ function wrapAsStore(Class) {
   return DecoxStore
 }
 
-module.exports = wrapAsStore
+module.exports = defineStoreFrom

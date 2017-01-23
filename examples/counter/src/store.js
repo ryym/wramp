@@ -1,4 +1,4 @@
-import { wrapAsStore } from 'decorx'
+import { wrapAsStore } from 'decox'
 import CounterState from './state'
 
 const CounterStore = wrapAsStore(CounterState)

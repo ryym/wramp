@@ -1,9 +1,9 @@
-# Decorx
+# Decox
 
 (WIP) Minimal state manager by decorating a class.
 
 ```javascript
-import { wrapAsStore, createConnector } from 'decorx'
+import { wrapAsStore, createConnector } from 'decox'
 
 // Define a state as a normal class.
 class CounterState {

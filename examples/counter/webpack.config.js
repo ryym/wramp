@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   resolve: {
     alias: {
-      decorx: path.join(__dirname, '..', '..'),
+      decox: path.join(__dirname, '..', '..'),
     },
   },
 

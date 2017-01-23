@@ -31,7 +31,7 @@ const wrapPrototype = (proto) => {
 }
 
 function wrapAsStore(Class) {
-  class DecorxStore extends Class {
+  class DecoxStore extends Class {
     constructor(...args) {
       super(...args)
       this._emitter = new EventEmitter()
@@ -46,9 +46,9 @@ function wrapAsStore(Class) {
     }
   }
 
-  Object.assign(DecorxStore.prototype, wrapPrototype(Class.prototype))
+  Object.assign(DecoxStore.prototype, wrapPrototype(Class.prototype))
 
-  return DecorxStore
+  return DecoxStore
 }
 
 module.exports = wrapAsStore

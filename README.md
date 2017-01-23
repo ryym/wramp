@@ -9,22 +9,24 @@ import { wrapAsStore, createConnector } from 'decox'
 class CounterState {
   constructor(init = 0) {
     this.value = init
+    this.$increment = this.$increment.bind(this)
+    this.$$incrementAsync = this.$$incrementAsync.bind(this)
   }
 
   getCount() {
     return this.value
   }
 
-  // Annotate updates by `$`.
+  // A method prefixed with `$` will update its state.
   $increment() {
     this.value += 1
   }
 
-  // Annotate updates with side effects by `$$`.
+  // A method prefixed with `$$` will update its state asynchronously.
+  // But it must not update the state directly. It uses other `$` methods
+  // to update the state.
   $$incrementAsync(delay) {
-    setTimeout(() => {
-      this.$increment()
-    }, delay)
+    setTimeout(() => this.$increment(), delay)
   }
 
   takeSnapshot() {

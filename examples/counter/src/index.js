@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Counter from './components/Counter';
-import store from './store'
+import store from './store';
 
 function render() {
   ReactDOM.render(

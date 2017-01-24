@@ -1,6 +1,6 @@
-import { defineStoreFrom } from 'decox'
-import CounterState from './state'
+import { defineStoreFrom } from 'decox';
+import CounterState from './state';
 
-const CounterStore = defineStoreFrom(CounterState)
+const CounterStore = defineStoreFrom(CounterState);
 
-export default new CounterStore()
+export default new CounterStore();

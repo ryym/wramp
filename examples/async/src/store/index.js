@@ -1,10 +1,10 @@
-import { defineStoreFrom } from 'decox';
+import { defineStore } from 'decox';
 import AppState from './AppState';
 import RedditState from './RedditState';
 
-const RedditStore = defineStoreFrom(RedditState);
+const RedditStore = defineStore(RedditState);
 
-const AppStore = defineStoreFrom(AppState, {
+const AppStore = defineStore(AppState, {
   subscribe: store => [store.reddit],
 });
 

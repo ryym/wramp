@@ -3,7 +3,7 @@
 (WIP) Minimal state manager by decorating a class.
 
 ```javascript
-import { defineStoreFrom, createConnector } from 'decox'
+import { defineStore, createConnector } from 'decox'
 
 // Define a state as a normal class.
 class CounterState {
@@ -35,7 +35,7 @@ class CounterState {
 }
 
 // Create store as a wrapper of the state.
-const CounterStore = defineStoreFrom(CounterState)
+const CounterStore = defineStore(CounterState)
 
 const store = new CounterStore()
 

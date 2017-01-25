@@ -1,7 +1,7 @@
-import defineStoreFrom from './defineStoreFrom';
+import defineStore from './defineStore';
 import createConnector from './react/createConnector';
 
 module.exports = {
-  defineStoreFrom,
+  defineStore,
   createConnector,
 };

@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import EventEmitter from './EventEmitter';
 import { EventTypes, getEmitter } from './storeClassMakers';
 
 const WatcherEventTypes = {
@@ -46,11 +46,11 @@ export default class StoreWatcher {
   }
 
   onUpdate(handler) {
-    this._emitter.on(WatcherEventTypes.UPDATE, handler);
+    return this._emitter.on(WatcherEventTypes.UPDATE, handler);
   }
 
   onEvent(handler) {
-    this._emitter.on(WatcherEventTypes.EVENT, handler);
+    return this._emitter.on(WatcherEventTypes.EVENT, handler);
   }
 
   _emitUpdate(data) {

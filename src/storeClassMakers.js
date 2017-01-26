@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import EventEmitter from './EventEmitter';
 
 export const EventTypes = {
   UPDATE_START: 'UPDATE_START',

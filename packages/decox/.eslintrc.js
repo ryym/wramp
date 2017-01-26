@@ -1,10 +1,6 @@
 module.exports = {
   "root": true,
-  "extends": "ryym/base-react",
-
-  "plugins": [
-    "react"
-  ],
+  "extends": "ryym/base",
 
   "parserOptions": {
     "ecmaVersion": 2017,

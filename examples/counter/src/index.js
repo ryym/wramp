@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { watch } from 'decox';
 import Counter from './components/Counter';
 import store from './store';
 
@@ -17,4 +18,4 @@ function render() {
 }
 
 render();
-store.onUpdate(render);
+watch(store).onUpdate(render);

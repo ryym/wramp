@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './components/App.connect';
-import store from './store';
+import store, { watcher } from './store';
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
-  store.onEvent(({ from, method }) => {
+  watcher.onEvent(({ from, method }) => {
     console.log(`Event: ${method} (${from})`);
   });
-  store.onUpdate(({ from, method }) => {
+  watcher.onUpdate(({ from, method }) => {
     console.log(`Update: ${method} (${from})`, store.takeSnapshot());
   });
 }

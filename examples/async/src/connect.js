@@ -1,4 +1,4 @@
 import { createConnector } from 'decox';
-import store from './store';
+import { watcher } from './store';
 
-export default createConnector(store);
+export default createConnector(watcher);

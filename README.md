@@ -3,7 +3,7 @@
 (WIP) Minimal state manager by decorating a class.
 
 ```javascript
-import { defineStore, createConnector } from 'decox'
+import { defineStore, createConnector, watch } from 'decox'
 
 // Define a state as a normal class.
 class CounterState {
@@ -35,15 +35,17 @@ class CounterState {
 }
 
 // Create store as a wrapper of the state.
+// The store has the exactly same method signatures as the state.
 const CounterStore = defineStore(CounterState)
 
 const store = new CounterStore()
+const watcher = watch(store)
 
-store.onUpdate(({ method }) => {
+watcher.onUpdate(({ method }) => {
   console.log(`Updated by ${method}: `, store.takeSnapshot())
 })
 
-const connect = createConnector(store)
+const connect = createConnector(watcher)
 
 // ---- view ----
 

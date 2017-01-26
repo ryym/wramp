@@ -9,10 +9,11 @@ import shallowEqual from './utils/shallowEqual';
  */
 export default function connectComponent(WrappedComponent, configs) {
   const {
-    store,
+    watcher,
     mapToProps,
     compareProps = shallowEqual,
   } = configs;
+  const store = watcher.getStore();
 
   class Connect extends Component {
     constructor(props, context) {
@@ -25,7 +26,7 @@ export default function connectComponent(WrappedComponent, configs) {
 
     componentDidMount() {
       if (! this.unsubscribe) {
-        this.unsubscribe = store.onUpdate(this.handleUpdate);
+        this.unsubscribe = watcher.onUpdate(this.handleUpdate);
       }
     }
 

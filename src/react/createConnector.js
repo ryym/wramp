@@ -5,13 +5,13 @@ const defaultPropsMapper = (store, props) => ({
   ...props,
 });
 
-export default function createConnector(store) {
+export default function createConnector(watcher) {
   return function connect(Component, {
     mapToProps = defaultPropsMapper,
     compareProps,
   }) {
     return connectComponent(Component, {
-      store,
+      watcher,
       mapToProps,
       compareProps,
     });

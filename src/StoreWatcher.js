@@ -3,7 +3,7 @@ import { EventTypes, getEmitter } from './storeClassMakers';
 
 const WatcherEventTypes = {
   UPDATE: 'UPDATE',
-  EVENT: 'EVENT',
+  ACTION: 'ACTION',
 };
 
 const bindMethodContext = (context, methodNames) => {
@@ -23,7 +23,7 @@ export default class StoreWatcher {
       '_startUpdate',
       '_finishUpdate',
       '_emitUpdate',
-      '_emitEvent',
+      '_emitAction',
     ]);
 
     this._emitter = new EventEmitter();
@@ -32,12 +32,12 @@ export default class StoreWatcher {
     const storeEmitter = getEmitter(store);
     storeEmitter.on(EventTypes.UPDATE_START, this._startUpdate);
     storeEmitter.on(EventTypes.UPDATE_END, this._finishUpdate);
-    storeEmitter.on(EventTypes.EVENT_FIRED, this._emitEvent);
+    storeEmitter.on(EventTypes.ACTION_RUN, this._emitAction);
 
     subStores(store).forEach(sub => {
       const subEmitter = getEmitter(sub);
       subEmitter.on(EventTypes.UPDATE_END, this._handleSubStoreUpdate);
-      subEmitter.on(EventTypes.EVENT_FIRED, this._emitEvent);
+      subEmitter.on(EventTypes.ACTION_RUN, this._emitAction);
     });
   }
 
@@ -49,16 +49,16 @@ export default class StoreWatcher {
     return this._emitter.on(WatcherEventTypes.UPDATE, handler);
   }
 
-  onEvent(handler) {
-    return this._emitter.on(WatcherEventTypes.EVENT, handler);
+  onAction(handler) {
+    return this._emitter.on(WatcherEventTypes.ACTION, handler);
   }
 
   _emitUpdate(data) {
     this._emitter.emit(WatcherEventTypes.UPDATE, data);
   }
 
-  _emitEvent(data) {
-    this._emitter.emit(WatcherEventTypes.EVENT, data);
+  _emitAction(data) {
+    this._emitter.emit(WatcherEventTypes.ACTION, data);
   }
 
   _startUpdate(updateData) {

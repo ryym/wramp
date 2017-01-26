@@ -1,13 +1,13 @@
 import {
   makeStoreClass,
   wrapUpdateMethod,
-  wrapEventMethod,
+  wrapActionMethod,
 } from './storeClassMakers';
 
 const isUpdateMethod = name =>
   name[0] === '$' && name[1] !== '$';
 
-const isEventMethod = name =>
+const isActionMethod = name =>
   name[0] === '$' && name[1] === '$';
 
 const setMethodName = (method, name) => {
@@ -22,7 +22,7 @@ const setMethodName = (method, name) => {
 const wrapMethodIfNeed = (method, name, className) => {
   const wrappedMethod
     = isUpdateMethod(name) ? wrapUpdateMethod(method, name, className)
-    : isEventMethod(name) ? wrapEventMethod(method, name, className)
+    : isActionMethod(name) ? wrapActionMethod(method, name, className)
     : method;
 
   if (wrappedMethod !== method) {

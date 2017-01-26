@@ -3,7 +3,7 @@ import EventEmitter from './EventEmitter';
 export const EventTypes = {
   UPDATE_START: 'UPDATE_START',
   UPDATE_END: 'UPDATE_END',
-  EVENT_FIRED: 'EVENT_FIRED',
+  ACTION_RUN: 'ACTION_RUN',
 };
 
 const EMITTER_KEY = '__DECOX_EMITTER__';
@@ -33,14 +33,14 @@ export const wrapUpdateMethod = (method, name, className) => {
   return wrappedUpdate;
 };
 
-export const wrapEventMethod = (method, name, className) => {
-  const wrappedEvent = function(...args) {
+export const wrapActionMethod = (method, name, className) => {
+  const wrappedAction = function(...args) {
     const emitter = getEmitter(this);
-    const eventData = { from: className, method: name, payload: args };
-    emitter.emit(EventTypes.EVENT_FIRED, eventData);
+    const actionData = { from: className, method: name, payload: args };
+    emitter.emit(EventTypes.ACTION_RUN, actionData);
     return method.apply(this, args);
   };
-  return wrappedEvent;
+  return wrappedAction;
 };
 
 /* eslint-enable no-invalid-this, func-style */

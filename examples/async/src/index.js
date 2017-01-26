@@ -5,8 +5,8 @@ import store, { watcher } from './store';
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
-  watcher.onEvent(({ from, method }) => {
-    console.log(`Event: ${method} (${from})`);
+  watcher.onAction(({ from, method }) => {
+    console.log(`Action: ${method} (${from})`);
   });
   watcher.onUpdate(({ from, method }) => {
     console.log(`Update: ${method} (${from})`, store.takeSnapshot());

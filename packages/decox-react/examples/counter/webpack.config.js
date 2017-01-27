@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const PACKAGES_PATH = path.join( __dirname, '..', '..', 'packages')
+const PACKAGES_PATH = path.join( __dirname, '..', '..', '..');
 
 module.exports = {
   resolve: {
     alias: {
-      'decox': path.join(PACKAGES_PATH, 'decox'),
-      'decox-react': path.join(PACKAGES_PATH, 'decox-react'),
+      decox: path.join(PACKAGES_PATH, 'decox'),
     },
   },
 

@@ -5,9 +5,11 @@ import RedditState from './RedditState';
 const RedditStore = defineStore(RedditState);
 const AppStore = defineStore(AppState);
 
-const store = new AppStore(new RedditStore());
+const redditStore = new RedditStore();
+const appStore = new AppStore(redditStore);
 
-export default store;
-export const watcher = watch(store, {
-  subStores: store => [store.reddit],
-});
+export default appStore;
+
+export const watcher = watch(appStore, [
+  watch(redditStore),
+]);

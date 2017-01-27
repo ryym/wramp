@@ -15,9 +15,7 @@ const bindMethodContext = (context, methodNames) => {
 export const watch = (store, configs) => new StoreWatcher(store, configs);
 
 export default class StoreWatcher {
-  constructor(store, {
-    subStores = () => [],
-  } = {}) {
+  constructor(store, subWatchers = []) {
     bindMethodContext(this, [
       '_handleSubStoreUpdate',
       '_startUpdate',
@@ -34,10 +32,9 @@ export default class StoreWatcher {
     storeEmitter.on(EventTypes.UPDATE_END, this._finishUpdate);
     storeEmitter.on(EventTypes.ACTION_RUN, this._emitAction);
 
-    subStores(store).forEach(sub => {
-      const subEmitter = getEmitter(sub);
-      subEmitter.on(EventTypes.UPDATE_END, this._handleSubStoreUpdate);
-      subEmitter.on(EventTypes.ACTION_RUN, this._emitAction);
+    subWatchers.forEach(sub => {
+      sub.onUpdate(this._handleSubStoreUpdate);
+      sub.onAction(this._emitAction);
     });
   }
 

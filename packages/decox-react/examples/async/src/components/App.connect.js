@@ -67,7 +67,7 @@ App.propTypes = {
   invalidate: PropTypes.func.isRequired,
 };
 
-const mapToProps = store => {
+const propsMapper = store => () => {
   const category = store.getCurrentCategory();
   const {
     posts,
@@ -84,4 +84,4 @@ const mapToProps = store => {
   };
 };
 
-export default connect(App, { mapToProps });
+export default connect(App, { propsMapper });

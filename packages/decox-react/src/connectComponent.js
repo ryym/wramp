@@ -10,17 +10,19 @@ import shallowEqual from './utils/shallowEqual';
 export default function connectComponent(WrappedComponent, configs) {
   const {
     watcher,
-    mapToProps,
+    propsMapper,
     compareProps = shallowEqual,
     makeUpdater,
   } = configs;
+
   const store = watcher.getStore();
+  const mapToProps = propsMapper(store);
 
   class Connect extends Component {
     constructor(props, context) {
       super(props, context);
       this.state = {
-        mappedProps: mapToProps(store, props),
+        mappedProps: mapToProps(props),
       };
       this.handleUpdate = this.handleUpdate.bind(this);
     }
@@ -50,11 +52,11 @@ export default function connectComponent(WrappedComponent, configs) {
     }
 
     componentWillReceiveProps(nextProps) {
-      this.mappedProps = mapToProps(store, nextProps);
+      this.mappedProps = mapToProps(nextProps);
     }
 
     handleUpdate() {
-      this.mappedProps = mapToProps(store, this.props);
+      this.mappedProps = mapToProps(this.props);
     }
 
     shouldComponentUpdate(_, nextState) {

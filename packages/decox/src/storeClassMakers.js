@@ -1,4 +1,5 @@
 import EventEmitter from './EventEmitter';
+import bindMethodContext from './utils/bindMethodContext';
 
 export const EventTypes = {
   UPDATE_START: 'UPDATE_START',
@@ -14,6 +15,7 @@ export const makeStoreClass = (StateClass /* , config */) => {
     constructor(...args) {
       super(...args);
       this[EMITTER_KEY] = new EventEmitter();
+      bindMethodContext(this);  // TODO: Should be optional.
     }
   };
 };

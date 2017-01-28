@@ -1,28 +1,17 @@
 import EventEmitter from './EventEmitter';
 import { EventTypes, getEmitter } from './storeClassMakers';
+import bindMethodContext from './utils/bindMethodContext';
 
 const WatcherEventTypes = {
   UPDATE: 'UPDATE',
   ACTION: 'ACTION',
 };
 
-const bindMethodContext = (context, methodNames) => {
-  methodNames.forEach(name => {
-    context[name] = context[name].bind(context);
-  });
-};
-
 export const watch = (store, configs) => new StoreWatcher(store, configs);
 
 export default class StoreWatcher {
   constructor(store, subWatchers = []) {
-    bindMethodContext(this, [
-      '_handleSubStoreUpdate',
-      '_startUpdate',
-      '_finishUpdate',
-      '_emitUpdate',
-      '_emitAction',
-    ]);
+    bindMethodContext(this);
 
     this._emitter = new EventEmitter();
     this._store = store;

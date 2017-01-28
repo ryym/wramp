@@ -36,11 +36,18 @@ export default function connectComponent(WrappedComponent, configs) {
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+      const mappedProps = mapToProps(store, nextProps)
+      this.setState({ mappedProps });
+    }
+
     handleUpdate() {
       const mappedProps = mapToProps(store, this.props);
-      if (! compareProps(this.state.mappedProps, mappedProps)) {
-        this.setState({ mappedProps });
-      }
+      this.setState({ mappedProps });
+    }
+
+    shouldComponentUpdate(_, nextState) {
+      return ! compareProps(this.state.mappedProps, nextState.mappedProps)
     }
 
     render() {

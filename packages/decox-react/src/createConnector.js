@@ -1,4 +1,5 @@
 import connectComponent from './connectComponent';
+import AsyncUpdater from './AsyncUpdater';
 
 const defaultPropsMapper = (store, props) => ({
   store,
@@ -14,6 +15,7 @@ export default function createConnector(watcher) {
       watcher,
       mapToProps,
       compareProps,
+      makeUpdater: update => new AsyncUpdater(update),
     });
   };
 }

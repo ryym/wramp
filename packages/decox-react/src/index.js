@@ -1,5 +1,5 @@
-import createConnector from './createConnector'
+import createConnector from './createConnector';
 
 module.exports = {
   createConnector,
-}
+};

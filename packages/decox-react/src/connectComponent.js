@@ -12,6 +12,7 @@ export default function connectComponent(WrappedComponent, configs) {
     watcher,
     mapToProps,
     compareProps = shallowEqual,
+    makeUpdater,
   } = configs;
   const store = watcher.getStore();
 
@@ -25,29 +26,39 @@ export default function connectComponent(WrappedComponent, configs) {
     }
 
     componentWillMount() {
-      if (! this.unsubscribe) {
-        this.unsubscribe = watcher.onUpdate(this.handleUpdate);
+      if (this.unsubscribe) {
+        return;
       }
+
+      this.unsubscribe = watcher.onUpdate(this.handleUpdate);
+
+      this.asyncUpdater = makeUpdater(() => {
+        if (this.mappedProps) {
+          const mappedProps = this.mappedProps;
+          this.mappedProps = undefined;
+          this.setState({ mappedProps });
+        }
+      }).start();
     }
 
     componentWillUnmount() {
+      this.mappedProps = undefined;
       if (this.unsubscribe) {
         this.unsubscribe();
+        this.asyncUpdater.cancel();
       }
     }
 
     componentWillReceiveProps(nextProps) {
-      const mappedProps = mapToProps(store, nextProps)
-      this.setState({ mappedProps });
+      this.mappedProps = mapToProps(store, nextProps);
     }
 
     handleUpdate() {
-      const mappedProps = mapToProps(store, this.props);
-      this.setState({ mappedProps });
+      this.mappedProps = mapToProps(store, this.props);
     }
 
     shouldComponentUpdate(_, nextState) {
-      return ! compareProps(this.state.mappedProps, nextState.mappedProps)
+      return ! compareProps(this.state.mappedProps, nextState.mappedProps);
     }
 
     render() {

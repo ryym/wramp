@@ -24,7 +24,7 @@ export default function connectComponent(WrappedComponent, configs) {
       this.handleUpdate = this.handleUpdate.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
       if (! this.unsubscribe) {
         this.unsubscribe = watcher.onUpdate(this.handleUpdate);
       }

@@ -6,14 +6,14 @@ export const EventTypes = {
   METHOD_CALL_END: 'METHOD_CALL_END',
 };
 
-export const subscribe = (proxy, eventType, handler) => {
-  const emitter = proxy[EMITTER_KEY];
+export const subscribe = (wrappedObject, eventType, handler) => {
+  const emitter = wrappedObject[EMITTER_KEY];
   return emitter.on(eventType, handler);
 };
 
 const EMITTER_KEY = '__DECOX_EMITTER_KEY__';
 
-export default function defineWrappedClass(OriginalClass, configs) {
+export default function defineWrappedClass(OriginalClass, configs = {}) {
   const WrappedClass = defineSubClass(OriginalClass);
   const wrappedMethods = wrapMethods(
     OriginalClass.name,
@@ -28,7 +28,14 @@ const defineSubClass = OriginalClass => {
   return class DecoxSubClass extends OriginalClass {
     constructor(...args) {
       super(...args);
-      this[EMITTER_KEY] = new EventEmitter();
+
+      Object.defineProperty(this, EMITTER_KEY, {
+        value: new EventEmitter(),
+        configurable: false,
+        enumerable: false,
+        writable: false,
+      })
+
       bindMethodContext(this);  // TODO: Should be optional.
     }
   };

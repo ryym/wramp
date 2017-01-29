@@ -32,11 +32,11 @@ const watchBySpy = store => {
     update: sinon.spy(),
     action: sinon.spy(),
   };
-  watch(store).onUpdate(({ method, payload }) => {
-    handlers.update({ method, payload });
+  watch(store).onUpdate(({ methodName, payload }) => {
+    handlers.update({ methodName, payload });
   });
-  watch(store).onAction(({ method, payload }) => {
-    handlers.action({ method, payload });
+  watch(store).onAction(({ methodName, payload }) => {
+    handlers.action({ methodName, payload });
   });
   return handlers;
 };
@@ -52,7 +52,7 @@ test('intg: calls update method', t => {
 
   store.$setValue(2);
   t.deepEqual(handlers.update.args[0], [{
-    method: '$setValue',
+    methodName: '$setValue',
     payload: [2],
   }]);
   t.is(store.getValue(), 2);
@@ -65,11 +65,11 @@ test('intg: calls action method', async t => {
   t.plan(3);
   await store.$$addAsync(10).then(() => {
     t.deepEqual(handlers.action.args[0], [{
-      method: '$$addAsync',
+      methodName: '$$addAsync',
       payload: [10],
     }]);
     t.deepEqual(handlers.update.args[0], [{
-      method: '$setValue',
+      methodName: '$setValue',
       payload: [11],
     }]);
     t.is(store.getValue(), 11);

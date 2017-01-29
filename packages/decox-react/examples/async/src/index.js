@@ -5,11 +5,11 @@ import store, { watcher } from './store';
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
-  watcher.onAction(({ from, method }) => {
-    console.log(`Action: ${method} (${from})`);
+  watcher.onAction(({ from, methodName }) => {
+    console.log(`Action: ${methodName} (${from})`);
   });
-  watcher.onUpdate(({ from, method }) => {
-    console.log(`Update: ${method} (${from})`, store.takeSnapshot());
+  watcher.onUpdate(({ from, methodName }) => {
+    console.log(`Update: ${methodName} (${from})`, store.takeSnapshot());
   });
 }
 

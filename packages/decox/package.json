@@ -12,8 +12,11 @@
     "lint:src": "eslint --fix src",
     "lint:test": "eslint --fix test",
     "ava": "BABEL_ENV=es2015 ava --verbose",
+    "test": "yarn ava -- 'src/**/*.test.js'",
+    "test:w": "yarn test -- --watch",
     "test:intg": "yarn ava -- 'test/intg/**/*.js'",
-    "test:intg:w": "yarn test:intg -- --watch"
+    "test:intg:w": "yarn test:intg -- --watch",
+    "test:all": "yarn test && yarn test:intg"
   },
   "devDependencies": {
     "ava": "^0.17.0",

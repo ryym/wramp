@@ -42,15 +42,13 @@ export default class UpdateAggregator {
     this._emitter.emit(EventTypes.ACTION, data);
   }
 
-  _startUpdate(updateData) {
+  _startUpdate(data) {
+    const updateData = { ...data, includes: [] };
     if (this._currentUpdate) {
       this._currentUpdate.includes.push(updateData);
     }
     else {
-      this._currentUpdate = {
-        ...updateData,
-        includes: [],
-      };
+      this._currentUpdate = updateData;
     }
   }
 

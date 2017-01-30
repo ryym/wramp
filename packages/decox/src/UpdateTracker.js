@@ -1,4 +1,7 @@
-import { subscribe, EventTypes } from './defineWrappedClass';
+import {
+  subscribe as subscribeStore,
+  EventTypes,
+} from './defineWrappedClass';
 
 const isUpdateMethod = name =>
   name[0] === '$' && name[1] !== '$';
@@ -14,11 +17,15 @@ const convertEventData = data => ({
 });
 
 export default class UpdateTracker {
-  constructor(store) {
+  constructor(store, {
+    subscribe = subscribeStore,
+    isUpdate = isUpdateMethod,
+    isAction = isActionMethod,
+  } = {}) {
     this.store = store;
     this._subscribe = subscribe;
-    this.isUpdate = isUpdateMethod;
-    this.isAction = isActionMethod;
+    this.isUpdate = isUpdate;
+    this.isAction = isAction;
   }
 
   getStore() {

@@ -1,7 +1,7 @@
 import {
   subscribe as subscribeStore,
   EventTypes,
-} from './defineWrappedClass';
+} from './defineProxyClass';
 
 const isUpdateMethod = name =>
   name[0] === '$' && name[1] !== '$';

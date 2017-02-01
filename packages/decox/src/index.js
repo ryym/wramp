@@ -1,9 +1,9 @@
-import defineWrappedClass from './defineWrappedClass';
+import defineProxyClass from './defineProxyClass';
 import UpdateTracker from './UpdateTracker';
 import UpdateAggregator from './UpdateAggregator';
 
 export const defineStore = StateClass => {
-  return defineWrappedClass(StateClass, {
+  return defineProxyClass(StateClass, {
     isTarget: name => name[0] === '$',
   });
 };

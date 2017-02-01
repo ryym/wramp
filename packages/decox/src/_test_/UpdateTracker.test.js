@@ -1,6 +1,6 @@
 import test from 'ava';
 import { EventEmitter } from 'events';
-import { EventTypes } from '../defineWrappedClass';
+import { EventTypes } from '../defineProxyClass';
 import UpdateTracker from '../UpdateTracker';
 
 test('#getStore returns a store it tracks', t => {

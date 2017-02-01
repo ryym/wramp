@@ -1,11 +1,11 @@
 import test from 'ava';
-import defineWrappedClass, {
+import defineProxyClass, {
   EventTypes,
   subscribe,
-} from '../defineWrappedClass';
+} from '../defineProxyClass';
 
 test('provide the same methods as a wrapped class', t => {
-  const WA = defineWrappedClass(
+  const WA = defineProxyClass(
     class A {
       a() { return 'a'; }
       b() { return 'b'; }
@@ -21,7 +21,7 @@ test('provide the same methods as a wrapped class', t => {
 });
 
 test('leave properties defined in a wrapped class', t => {
-  const WA = defineWrappedClass(
+  const WA = defineProxyClass(
     class A {
       constructor(init) {
         this.a = init;
@@ -40,7 +40,7 @@ test('leave properties defined in a wrapped class', t => {
 
 test('notify before and after a method is called', t => {
   const calls = [];
-  const WA = defineWrappedClass(
+  const WA = defineProxyClass(
     class A {
       method() { calls.push('method'); }
     }

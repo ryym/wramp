@@ -1,11 +1,13 @@
-# Decox
+# Wramp
 
-(WIP) Minimal state manager by decorating a class.
+Minimal state manager which just wraps a class.
 
 ```javascript
-import { defineStore, createConnector, watch } from 'decox'
+import { defineStore, watch } from 'wramp'
+import { createConnector } from 'wramp-react'
 
 // Define a state as a normal class.
+// This should have store logics of your app.
 class CounterState {
   constructor(init = 0) {
     this.value = init
@@ -17,14 +19,12 @@ class CounterState {
     return this.value
   }
 
-  // A method prefixed with `$` will update its state.
+  // Annotate a method which updates a state by `$`.
   $increment() {
     this.value += 1
   }
 
-  // A method prefixed with `$$` will update its state asynchronously.
-  // But it must not update the state directly. It uses other `$` methods
-  // to update the state.
+  // Annotate a method which has an effect by `$$`.
   $$incrementAsync(delay) {
     setTimeout(() => this.$increment(), delay)
   }
@@ -34,18 +34,17 @@ class CounterState {
   }
 }
 
-// Create store as a wrapper of the state.
-// The store has the exactly same method signatures as the state.
+// Create a store class which has the same signature methods as the state.
 const CounterStore = defineStore(CounterState)
 
-const store = new CounterStore()
+const store = new CounterStore(0)
 const watcher = watch(store)
 
 watcher.onUpdate(({ method }) => {
   console.log(`Updated by ${method}: `, store.takeSnapshot())
 })
 
-const connect = createConnector(watcher)
+const connect = createConnector(store)
 
 // ---- view ----
 
@@ -59,9 +58,10 @@ const Counter = ({ title, count, increment, incrementAsync }) => (
   </div>
 )
 
+// Map the store object to props.
 const CounterContainer = connect(Counter, {
-  mapToProps: (store, { title }) => {
-    title,
+  propsMapper: store => wrapperProps => {
+    title: wrapperProps.title,
     count: store.getCount(),
     increment: store.$increment,
     incrementAsync: store.$$incrementAsync,

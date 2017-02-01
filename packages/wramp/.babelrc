@@ -11,7 +11,7 @@
       ]
     },
 
-    "//": "https://github.com/ryym/decox/issues/1",
+    "//": "https://github.com/ryym/wramp/issues/1",
     "es2015": {
       "plugins": [
         "transform-es2015-modules-commonjs"

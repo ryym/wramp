@@ -1,4 +1,4 @@
-declare module 'decox' {
+declare module 'wramp' {
   declare type Store<Proto> = Proto;
 
   declare function defineStore<State>(stateClass: Class<State>): Class<Store<State>>;

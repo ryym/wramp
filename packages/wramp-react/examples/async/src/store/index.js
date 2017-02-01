@@ -1,4 +1,4 @@
-import { defineStore, watch } from 'decox';
+import { defineStore, watch } from 'wramp';
 import AppState from './AppState';
 import RedditState from './RedditState';
 

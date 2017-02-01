@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { watch } from 'decox';
+import { watch } from 'wramp';
 import Counter from './components/Counter';
 import store from './store';
 

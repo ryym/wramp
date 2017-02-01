@@ -1,4 +1,4 @@
-declare module '*decox' { // TODO: remove *
+declare module '*wramp-react' { // TODO: remove *
     import { Component, ComponentClass, StatelessComponent } from 'react'
 
     type ReactComponent<P> = ComponentClass<P> | StatelessComponent<P>;

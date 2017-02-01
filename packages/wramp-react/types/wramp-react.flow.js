@@ -1,5 +1,5 @@
-declare module 'decox-react' {
-  import type { Store, StoreWatcher } from 'decox';
+declare module 'wramp-react' {
+  import type { Store, StoreWatcher } from 'wramp';
   import type { Component } from 'react';
 
   declare type ComponentClass<P> = Class<Component<any, P, any>>;

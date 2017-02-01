@@ -1,7 +1,7 @@
 import EventEmitter from './EventEmitter';
 import bindMethodContext from './utils/bindMethodContext';
 
-const EMITTER_KEY = '__DECOX_EMITTER_KEY__';
+const EMITTER_KEY = '__WRAMP_EMITTER_KEY__';
 
 /**
  * Event types published from a wrapped class
@@ -38,7 +38,7 @@ export default function defineProxyClass(OriginalClass, configs = {}) {
 }
 
 const defineSubClass = OriginalClass => {
-  return class DecoxSubClass extends OriginalClass {
+  return class WrampSubClass extends OriginalClass {
     constructor(...args) {
       super(...args);
 

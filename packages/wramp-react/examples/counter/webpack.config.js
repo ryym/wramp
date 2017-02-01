@@ -6,8 +6,7 @@ const PACKAGES_PATH = path.join( __dirname, '..', '..', '..');
 module.exports = {
   resolve: {
     alias: {
-      'decox': path.join(PACKAGES_PATH, 'decox'),
-      'decox-react': path.join(PACKAGES_PATH, 'decox-react'),
+      wramp: path.join(PACKAGES_PATH, 'wramp'),
     },
   },
 

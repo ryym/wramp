@@ -1,4 +1,4 @@
-declare module '*decox' { // TODO: remove *
+declare module '*wramp' { // TODO: remove *
     export type Store<Proto> = Proto
 
     export interface StoreClass<Proto> {

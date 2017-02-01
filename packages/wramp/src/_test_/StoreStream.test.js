@@ -43,20 +43,20 @@ test('#onUpdateEnd regsiters a handler of after-update events', t => {
   t.deepEqual(updates, ['$addFoo']);
 });
 
-test('#onAction registers a handler of before-action events', t => {
+test('#onEffect registers a handler of before-effect events', t => {
   const emitter = new EventEmitter();
   const tracker = new StoreStream(emitter, {
     subscribe: (store, type, handler) => store.on(type, handler),
-    isAction: name => name[0] === '$' && name[1] === '$',
+    isEffect: name => name[0] === '$' && name[1] === '$',
   });
 
-  const actions = [];
-  tracker.onAction(data => actions.push(data.methodName));
+  const effects = [];
+  tracker.onEffect(data => effects.push(data.methodName));
 
   emitter.emit(EventTypes.METHOD_CALL_START, { methodName: '$addFoo' });
   emitter.emit(EventTypes.METHOD_CALL_START, { methodName: '$$fetchFoo' });
   emitter.emit(EventTypes.METHOD_CALL_START, { methodName: 'getFoo' });
   emitter.emit(EventTypes.METHOD_CALL_END, { methodName: '$$clearBar' });
 
-  t.deepEqual(actions, ['$$fetchFoo']);
+  t.deepEqual(effects, ['$$fetchFoo']);
 });

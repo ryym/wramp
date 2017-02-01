@@ -6,7 +6,7 @@ import {
 const isUpdateMethod = name =>
   name[0] === '$' && name[1] !== '$';
 
-const isActionMethod = name =>
+const isEffectMethod = name =>
   name[0] === '$' && name[1] === '$';
 
 const convertEventData = data => ({
@@ -20,12 +20,12 @@ export default class StoreStream {
   constructor(store, {
     subscribe = subscribeStore,
     isUpdate = isUpdateMethod,
-    isAction = isActionMethod,
+    isEffect = isEffectMethod,
   } = {}) {
     this.store = store;
     this._subscribe = subscribe;
     this.isUpdate = isUpdate;
-    this.isAction = isAction;
+    this.isEffect = isEffect;
   }
 
   getStore() {
@@ -48,10 +48,10 @@ export default class StoreStream {
     );
   }
 
-  onAction(handler) {
+  onEffect(handler) {
     return this._subscribeSpecificMethod(
       EventTypes.METHOD_CALL_START,
-      ({ methodName }) => this.isAction(methodName),
+      ({ methodName }) => this.isEffect(methodName),
       handler
     );
   }

@@ -64,19 +64,19 @@ test('#onUpdate notifies an update event with other updates it uses', t => {
   }]);
 });
 
-test('#onAction notifies an action event', t => {
+test('#onEffect notifies an effect event', t => {
   const stream = new MockStream();
   const watcher = new StoreWatcher(stream);
 
-  const actions = [];
-  watcher.onAction(data => {
-    actions.push(data);
+  const effects = [];
+  watcher.onEffect(data => {
+    effects.push(data);
   });
 
-  stream.emitAction('method1', [1, 2]);
-  stream.emitAction('method2', [2, 3]);
+  stream.emitEffect('method1', [1, 2]);
+  stream.emitEffect('method2', [2, 3]);
 
-  t.deepEqual(actions, [{
+  t.deepEqual(effects, [{
     methodName: 'method1',
     payload: [1, 2],
   }, {

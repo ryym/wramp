@@ -15,7 +15,7 @@ declare module '*wramp' { // TODO: remove *
     export interface UpdateData extends EventData {
         includes: [UpdateData];
     }
-    export interface ActionData extends EventData {}
+    export interface EffectData extends EventData {}
 
     export interface WatcherConfig<S extends Store<any>> {
         subStores(store: S): [Store<any>];
@@ -25,7 +25,7 @@ declare module '*wramp' { // TODO: remove *
         constructor(store: S, config: WatcherConfig<S>);
         getStore(): S;
         onUpdate(handler: (data: UpdateData) => void): void;
-        onAction(handler: (data: ActionData) => void): void;
+        onEffect(handler: (data: EffectData) => void): void;
     }
 
     export function watch<S extends Store<any>>(

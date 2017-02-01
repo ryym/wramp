@@ -3,7 +3,7 @@ import bindMethodContext from './utils/bindMethodContext';
 
 const EventTypes = {
   UPDATE: 'UPDATE',
-  ACTION: 'ACTION',
+  EFFECT: 'EFFECT',
 };
 
 export default class StoreWatcher {
@@ -14,11 +14,11 @@ export default class StoreWatcher {
 
     stream.onUpdateStart(this._startUpdate);
     stream.onUpdateEnd(this._finishUpdate);
-    stream.onAction(this._emitAction);
+    stream.onEffect(this._emitEffect);
 
     subAggrs.forEach(sub => {
       sub.onUpdate(this._handleSubStoreUpdate);
-      sub.onAction(this._emitAction);
+      sub.onEffect(this._emitEffect);
     });
   }
 
@@ -30,16 +30,16 @@ export default class StoreWatcher {
     return this._emitter.on(EventTypes.UPDATE, handler);
   }
 
-  onAction(handler) {
-    return this._emitter.on(EventTypes.ACTION, handler);
+  onEffect(handler) {
+    return this._emitter.on(EventTypes.EFFECT, handler);
   }
 
   _emitUpdate(data) {
     this._emitter.emit(EventTypes.UPDATE, data);
   }
 
-  _emitAction(data) {
-    this._emitter.emit(EventTypes.ACTION, data);
+  _emitEffect(data) {
+    this._emitter.emit(EventTypes.EFFECT, data);
   }
 
   _startUpdate(data) {

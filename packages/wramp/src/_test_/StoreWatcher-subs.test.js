@@ -64,19 +64,19 @@ test('#onUpdate aggregates updates from sub watchers', t => {
   }]);
 });
 
-test('#onAction notifies an action from sub watchers', t => {
+test('#onEffect notifies an effect from sub watchers', t => {
   const subStream = new MockStream();
   const stream = new MockStream();
   const subWatcher = new StoreWatcher(subStream);
   const watcher = new StoreWatcher(stream, [subWatcher]);
 
-  const actions = [];
-  watcher.onAction(data => actions.push(data));
+  const effects = [];
+  watcher.onEffect(data => effects.push(data));
 
-  stream.emitAction('method1', [1, 1]);
-  subStream.emitAction('sub-method1', [0, 1]);
+  stream.emitEffect('method1', [1, 1]);
+  subStream.emitEffect('sub-method1', [0, 1]);
 
-  t.deepEqual(actions, [{
+  t.deepEqual(effects, [{
     methodName: 'method1',
     payload: [1, 1],
   }, {

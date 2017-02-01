@@ -7,7 +7,7 @@ export default class MockStream {
     const emitter = new EventEmitter();
     this.onUpdateStart = emitter.on.bind(emitter, 'update-start');
     this.onUpdateEnd = emitter.on.bind(emitter, 'update-end');
-    this.onAction = emitter.on.bind(emitter, 'action');
+    this.onEffect = emitter.on.bind(emitter, 'effect');
     this.emitter = emitter;
   }
 
@@ -21,8 +21,8 @@ export default class MockStream {
     this._emit('update-end', name);
   }
 
-  emitAction(name, args) {
-    this._emit('action', name, args);
+  emitEffect(name, args) {
+    this._emit('effect', name, args);
   }
 
   _emit(type, name, args) {

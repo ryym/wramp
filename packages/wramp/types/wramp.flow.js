@@ -11,7 +11,7 @@ declare module 'wramp' {
   declare interface UpdateData extends EventData {
     includes: [UpdateData];
   }
-  declare interface ActionData extends EventData {}
+  declare interface EffectData extends EventData {}
 
   declare interface WatcherConfig<S: Store<any>> {
     subStores(store: S): [Store<any>];

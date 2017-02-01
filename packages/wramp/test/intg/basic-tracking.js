@@ -30,13 +30,13 @@ const Store = defineStore(State);
 const watchBySpy = store => {
   const handlers = {
     update: sinon.spy(),
-    action: sinon.spy(),
+    effect: sinon.spy(),
   };
   watch(store).onUpdate(({ methodName, payload }) => {
     handlers.update({ methodName, payload });
   });
-  watch(store).onAction(({ methodName, payload }) => {
-    handlers.action({ methodName, payload });
+  watch(store).onEffect(({ methodName, payload }) => {
+    handlers.effect({ methodName, payload });
   });
   return handlers;
 };
@@ -58,13 +58,13 @@ test('intg: calls update method', t => {
   t.is(store.getValue(), 2);
 });
 
-test('intg: calls action method', async t => {
+test('intg: calls effect method', async t => {
   const store = new Store(1);
   const handlers = watchBySpy(store);
 
   t.plan(3);
   await store.$$addAsync(10).then(() => {
-    t.deepEqual(handlers.action.args[0], [{
+    t.deepEqual(handlers.effect.args[0], [{
       methodName: '$$addAsync',
       payload: [10],
     }]);

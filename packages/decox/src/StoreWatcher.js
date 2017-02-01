@@ -6,15 +6,15 @@ const EventTypes = {
   ACTION: 'ACTION',
 };
 
-export default class UpdateAggregator {
-  constructor(tracker, subAggrs = []) {
+export default class StoreWatcher {
+  constructor(stream, subAggrs = []) {
     bindMethodContext(this);
     this._emitter = new EventEmitter();
-    this._tracker = tracker;
+    this._stream = stream;
 
-    tracker.onUpdateStart(this._startUpdate);
-    tracker.onUpdateEnd(this._finishUpdate);
-    tracker.onAction(this._emitAction);
+    stream.onUpdateStart(this._startUpdate);
+    stream.onUpdateEnd(this._finishUpdate);
+    stream.onAction(this._emitAction);
 
     subAggrs.forEach(sub => {
       sub.onUpdate(this._handleSubStoreUpdate);
@@ -23,7 +23,7 @@ export default class UpdateAggregator {
   }
 
   getStore() {
-    return this._tracker.getStore();
+    return this._stream.getStore();
   }
 
   onUpdate(handler) {

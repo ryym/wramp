@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-export default class MockTracker {
+export default class MockStream {
   constructor(store) {
     this.store = store;
 

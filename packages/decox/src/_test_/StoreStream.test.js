@@ -1,17 +1,17 @@
 import test from 'ava';
 import { EventEmitter } from 'events';
 import { EventTypes } from '../defineProxyClass';
-import UpdateTracker from '../UpdateTracker';
+import StoreStream from '../StoreStream';
 
 test('#getStore returns a store it tracks', t => {
   const mockStore = {};
-  const tracker = new UpdateTracker(mockStore);
+  const tracker = new StoreStream(mockStore);
   t.is(tracker.getStore(), mockStore);
 });
 
 test('#onUpdateStart registers a handler of before-update events', t => {
   const emitter = new EventEmitter();
-  const tracker = new UpdateTracker(emitter, {
+  const tracker = new StoreStream(emitter, {
     subscribe: (store, type, handler) => store.on(type, handler),
     isUpdate: name => name[0] === '$',
   });
@@ -28,7 +28,7 @@ test('#onUpdateStart registers a handler of before-update events', t => {
 
 test('#onUpdateEnd regsiters a handler of after-update events', t => {
   const emitter = new EventEmitter();
-  const tracker = new UpdateTracker(emitter, {
+  const tracker = new StoreStream(emitter, {
     subscribe: (store, type, handler) => store.on(type, handler),
     isUpdate: name => name[0] === '$',
   });
@@ -45,7 +45,7 @@ test('#onUpdateEnd regsiters a handler of after-update events', t => {
 
 test('#onAction registers a handler of before-action events', t => {
   const emitter = new EventEmitter();
-  const tracker = new UpdateTracker(emitter, {
+  const tracker = new StoreStream(emitter, {
     subscribe: (store, type, handler) => store.on(type, handler),
     isAction: name => name[0] === '$' && name[1] === '$',
   });

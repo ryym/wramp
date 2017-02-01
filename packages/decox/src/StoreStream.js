@@ -16,7 +16,7 @@ const convertEventData = data => ({
   payload: data.args,
 });
 
-export default class UpdateTracker {
+export default class StoreStream {
   constructor(store, {
     subscribe = subscribeStore,
     isUpdate = isUpdateMethod,

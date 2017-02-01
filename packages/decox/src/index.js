@@ -1,6 +1,6 @@
 import defineProxyClass from './defineProxyClass';
-import UpdateTracker from './UpdateTracker';
-import UpdateAggregator from './UpdateAggregator';
+import StoreStream from './StoreStream';
+import StoreWatcher from './StoreWatcher';
 
 export const defineStore = StateClass => {
   return defineProxyClass(StateClass, {
@@ -8,7 +8,7 @@ export const defineStore = StateClass => {
   });
 };
 
-export const watch = (store, subAggregators) => {
-  const tracker = new UpdateTracker(store);
-  return new UpdateAggregator(tracker, subAggregators);
+export const watch = (store, subWatchers) => {
+  const stream = new StoreStream(store);
+  return new StoreWatcher(stream, subWatchers);
 };

@@ -9,6 +9,9 @@
     "watch": "babel src --out-dir dist --watch",
     "lint:src": "eslint --fix src"
   },
+  "dependencies": {
+    "wramp": "0.0.0"
+  },
   "devDependencies": {
     "@types/react": "^15.0.4",
     "@types/react-dom": "^0.14.21",

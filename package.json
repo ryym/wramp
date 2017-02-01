@@ -1,0 +1,10 @@
+{
+  "name": "wramp-root",
+  "private": true,
+  "scripts": {
+    "all": "lerna exec yarn"
+  },
+  "devDependencies": {
+    "lerna": "2.0.0-beta.34"
+  }
+}

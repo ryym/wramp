@@ -5,6 +5,8 @@
   "author": "ryym <ryym.64@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "@link:from": "yarn link || true",
+    "@link:to": ":",
     "build": "babel src --out-dir dist-es5",
     "watch": "babel src --out-dir dist-es5 --watch",
     "build:es2015": "BABEL_ENV=es2015 babel src --out-dir dist-es2015",

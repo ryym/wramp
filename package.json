@@ -2,7 +2,12 @@
   "name": "wramp-root",
   "private": true,
   "scripts": {
-    "all": "lerna exec yarn"
+    "setup": "yarn all:install && yarn all:link",
+    "all": "lerna exec yarn",
+    "all:install": "yarn && yarn all install",
+    "all:link": "yarn @link:from && yarn @link:to",
+    "@link:to": "lerna exec yarn @link:to",
+    "@link:from": "lerna exec yarn @link:from"
   },
   "devDependencies": {
     "lerna": "2.0.0-beta.34"

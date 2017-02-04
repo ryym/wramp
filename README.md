@@ -1,75 +1,90 @@
 # Wramp
 
-Minimal state manager which just wraps a class.
+Wramp is a library which aims to easily construct a unidirectional data flow like [Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content).
+But there is neither Dispatcher nor Action.
+All you need to do is to define a class that manages your application state.
+Wramp will generate a Store class from it automatically.
+
 
 ```javascript
 import { defineStore, watch } from 'wramp'
-import { createConnector } from 'wramp-react'
 
-// Define a state as a normal class.
-// This should have store logics of your app.
-class CounterState {
-  constructor(init = 0) {
-    this.value = init
-    this.$increment = this.$increment.bind(this)
-    this.$$incrementAsync = this.$$incrementAsync.bind(this)
+// Define a class which manages a state.
+class AppState {
+  constructor(count) {
+    tihs.count = count
   }
 
   getCount() {
-    return this.value
+    return this.count
   }
 
-  // Annotate a method which updates a state by `$`.
   $increment() {
-    this.value += 1
-  }
-
-  // Annotate a method which has an effect by `$$`.
-  $$incrementAsync(delay) {
-    setTimeout(() => this.$increment(), delay)
-  }
-
-  takeSnapshot() {
-    return { value: this.value }
+    this.count += 1
   }
 }
 
-// Create a store class which has the same signature methods as the state.
-const CounterStore = defineStore(CounterState)
+// Define a store class.
+const AppStore = defineStore(AppState)
 
-const store = new CounterStore(0)
+const store = new AppStore(0)
+
 const watcher = watch(store)
 
-watcher.onUpdate(({ method }) => {
-  console.log(`Updated by ${method}: `, store.takeSnapshot())
+// Output a log whenever the store is updated.
+watcher.onUpdate(data => {
+  console.log(`count is updated by ${data.methodName}:`, store.getCount())
 })
 
-const connect = createConnector(store)
-
-// ---- view ----
-
-// React Component
-const Counter = ({ title, count, increment, incrementAsync }) => (
-  <div>
-    <p>{title}</p>
-    <div>Count: {count}</div>
-    <button onClick={increment}></button>
-    <button onClick={incrementAsync}></button>
-  </div>
-)
-
-// Map the store object to props.
-const CounterContainer = connect(Counter, {
-  propsMapper: store => wrapperProps => {
-    title: wrapperProps.title,
-    count: store.getCount(),
-    increment: store.$increment,
-    incrementAsync: store.$$incrementAsync,
-  }
-})
-
-ReactDOM.render(
-  <CounterContainer title="Counter example" />,
-  document.getElementById("root")
-)
+store.$increment()
+// => count is updated by $increment: 1
 ```
+
+Like above, Wramp wraps your class and define a new class that has the same method signatures as the wrapped class.
+So this new class behaves just like a wrapped class.
+Additionally, you can observe a store's updates using the `watch`.
+A watcher publishes an event whenever an update method is called.
+To define an _update_ method, you just need to follow the two rules:
+
+- The method name must start with `$`
+- It must update a state synchronously
+
+Using this `watch`, You can implement an interactive view with [React](https://facebook.github.io/react/).
+
+```javascript
+function render() {
+  ReactDOM.render(
+    <div>
+      <p>Count: {store.getCount()}</p>
+      <button onClick={() => store.$increment()}>Increment</button>
+    </div>,
+    document.getElementById('root')
+  );
+}
+
+render();
+watch(store).onUpdate(render);
+```
+
+[wramp-react](/packages/wramp-react#wramp-react) provides a more generic way to connect a store and views.
+
+Thats' it. There are few rules you need to follow to use Wramp.
+All designs such as how to structure and update a state, or how to separate concerns of logics, are up to you.
+
+If you want to update a state asynchronously, follow this way:
+
+1. Define an update method that just changes the state synchronously
+1. Use that update method in a method which performs an asynchornous task
+
+```javascript
+fetchUser(id) {
+  this.api.fetchUser({ id }).then(user => {
+    this.$setUser(user)
+  })
+}
+```
+
+## API
+
+- [wramp](/packages/wramp#wramp)
+- [wramp-react](/packages/wramp-react#wramp-react)

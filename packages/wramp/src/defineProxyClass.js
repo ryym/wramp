@@ -37,7 +37,7 @@ export default function defineProxyClass(OriginalClass, configs = {}) {
   return ProxyClass;
 }
 
-const defineSubClass = OriginalClass => {
+const defineSubClass = (OriginalClass, config = {}) => {
   return class WrampSubClass extends OriginalClass {
     constructor(...args) {
       super(...args);
@@ -49,7 +49,9 @@ const defineSubClass = OriginalClass => {
         writable: false,
       });
 
-      bindMethodContext(this);  // TODO: Should be optional.
+      if (config.autoBind === true) {
+        bindMethodContext(this);
+      }
     }
   };
 };

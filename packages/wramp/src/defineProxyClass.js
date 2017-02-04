@@ -74,7 +74,13 @@ const wrapMethod = (method, methodName, className) => {
     /* eslint-disable no-invalid-this */
 
     const emitter = this[EMITTER_KEY];
-    const methodData = { className, methodName, method, args };
+    const methodData = {
+      className,
+      methodName,
+      method: this[methodName],
+      originalMethod: method,
+      args,
+    };
 
     emitter.emit(EventTypes.METHOD_CALL_START, methodData);
     const returnValue = method.apply(this, args);

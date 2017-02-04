@@ -34,8 +34,8 @@ export default class StoreWatcher {
     return this._emitter.on(EventTypes.EFFECT, handler);
   }
 
-  _emitUpdate(data) {
-    this._emitter.emit(EventTypes.UPDATE, data);
+  _emitUpdate(data, store) {
+    this._emitter.emit(EventTypes.UPDATE, data, store);
   }
 
   _emitEffect(data) {
@@ -52,19 +52,19 @@ export default class StoreWatcher {
     }
   }
 
-  _finishUpdate({ methodName }) {
+  _finishUpdate({ methodName }, store) {
     if (this._currentUpdate.methodName === methodName) {
-      this._emitUpdate(this._currentUpdate);
+      this._emitUpdate(this._currentUpdate, store);
       delete this._currentUpdate;
     }
   }
 
-  _handleSubStoreUpdate(data) {
+  _handleSubStoreUpdate(data, store) {
     if (this._currentUpdate) {
       this._currentUpdate.includes.push(data);
     }
     else {
-      this._emitUpdate(data);
+      this._emitUpdate(data, store);
     }
   }
 }

@@ -13,6 +13,7 @@ const convertEventData = data => ({
   from: data.className,
   methodName: data.methodName,
   method: data.method,
+  originalMethod: data.originalMethod,
   payload: data.args,
 });
 
@@ -59,7 +60,7 @@ export default class StoreStream {
   _subscribeSpecificMethod(eventType, shouldHandle, handler) {
     return this._subscribe(this.store, eventType, data => {
       if (shouldHandle(data)) {
-        handler(convertEventData(data));
+        handler(convertEventData(data), this.store);
       }
     });
   }

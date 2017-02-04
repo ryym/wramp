@@ -133,3 +133,28 @@ test('notifies updates from deep sub watchers', t => {
     }],
   }]);
 });
+
+test('#onUpdate distinguishes same name methods', t => {
+  const subStream = new MockStream();
+  const stream = new MockStream();
+  const subWatcher = new StoreWatcher(subStream);
+  const watcher = new StoreWatcher(stream, [subWatcher]);
+
+  const updates = [];
+  watcher.onUpdate(data => updates.push(data));
+
+  stream.emitUpdateStart('method1', [1, 1]);
+  subStream.emitUpdateStart('method1', [0, 1]);
+  subStream.emitUpdateEnd('method1');
+  stream.emitUpdateEnd('method1');
+
+  t.deepEqual(updates, [{
+    methodName: 'method1',
+    payload: [1, 1],
+    includes: [{
+      methodName: 'method1',
+      payload: [0, 1],
+      includes: [],
+    }],
+  }]);
+});

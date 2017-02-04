@@ -21,7 +21,7 @@
     "test:all": "yarn test && yarn test:intg"
   },
   "devDependencies": {
-    "ava": "^0.17.0",
+    "ava": "0.18.1",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-plugin-transform-object-rest-spread": "^6.22.0",

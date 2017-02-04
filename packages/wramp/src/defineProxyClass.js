@@ -1,7 +1,10 @@
 import EventEmitter from './EventEmitter';
 import bindMethodContext from './utils/bindMethodContext';
+import getClassExtender from './utils/classExtender';
 
 const EMITTER_KEY = '__WRAMP_EMITTER_KEY__';
+
+const extendClass = getClassExtender()
 
 /**
  * Event types published from a wrapped class
@@ -38,22 +41,18 @@ export default function defineProxyClass(OriginalClass, configs = {}) {
 }
 
 const defineSubClass = (OriginalClass, config = {}) => {
-  return class WrampSubClass extends OriginalClass {
-    constructor(...args) {
-      super(...args);
+  return extendClass(OriginalClass, _this => {
+    Object.defineProperty(_this, EMITTER_KEY, {
+      value: new EventEmitter(),
+      configurable: false,
+      enumerable: false,
+      writable: false,
+    });
 
-      Object.defineProperty(this, EMITTER_KEY, {
-        value: new EventEmitter(),
-        configurable: false,
-        enumerable: false,
-        writable: false,
-      });
-
-      if (config.autoBind === true) {
-        bindMethodContext(this);
-      }
+    if (config.autoBind === true) {
+      bindMethodContext(_this);
     }
-  };
+  })
 };
 
 const wrapMethods = (className, proto, isTarget = () => true) => {

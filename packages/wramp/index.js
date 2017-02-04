@@ -1,1 +1,1 @@
-module.exports = require('./dist-es5');
+module.exports = require('./dist');

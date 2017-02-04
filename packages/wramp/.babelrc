@@ -4,18 +4,7 @@
     "transform-es2015-parameters"
   ],
 
-  "env": {
-    "development": {
-      "presets": [
-        "es2015"
-      ]
-    },
-
-    "//": "https://github.com/ryym/wramp/issues/1",
-    "es2015": {
-      "plugins": [
-        "transform-es2015-modules-commonjs"
-      ]
-    }
-  }
+  "presets": [
+    "es2015"
+  ]
 }

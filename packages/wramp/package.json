@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "ryym <ryym.64@gmail.com>",
   "license": "MIT",
+  "repository": "https://github.com/ryym/wramp",
   "scripts": {
     "@link:from": "yarn link || true",
     "@link:to": ":",

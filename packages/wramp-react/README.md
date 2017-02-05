@@ -1,6 +1,6 @@
 # Wramp React
 
-This is a package to use Wramp with [React](https://facebook.github.io/react/).
+This is a package to use [Wramp](https://github.com/ryym/wramp) with [React](https://facebook.github.io/react/).
 This provides `createConnector` method that allows you to map a store state to a React component.
 
 ```javascript

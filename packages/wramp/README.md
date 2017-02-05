@@ -1,6 +1,6 @@
 # Wramp
 
-this is a core package of Wramp and this doesn't depdend on any view frameworks.
+this is a core package of [Wramp](https://github.com/ryym/wramp) and this doesn't depdend on any view frameworks.
 
 ## API
 

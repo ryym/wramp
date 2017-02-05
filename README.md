@@ -1,5 +1,13 @@
 # Wramp
 
+[![npm version][npm-badge]][npm-page]
+[![travis status][travis-badge]][travis-status]
+
+[npm-badge]: https://img.shields.io/npm/v/wramp.svg
+[npm-page]: https://www.npmjs.org/package/wramp
+[travis-badge]: https://travis-ci.org/ryym/wramp.svg?branch=master
+[travis-status]: https://travis-ci.org/ryym/wramp
+
 Wramp is a library which aims to easily construct a unidirectional data flow like [Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content).
 But there is neither Dispatcher nor Action.
 All you need to do is to define a class that manages your application state.

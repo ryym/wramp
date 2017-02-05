@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+- '7'
+- '6'
+- '4'
+
+# XXX: `yarn setup` fails on Travis.
+before_script:
+  - yarn install
+  - pushd packages/wramp && yarn install && popd
+  - pushd packages/wramp-react && yarn install && popd
+  - yarn all:link
+
+script: yarn test

@@ -7,7 +7,9 @@
     "all:install": "yarn && yarn all install",
     "all:link": "yarn @link:from && yarn @link:to",
     "@link:to": "lerna exec yarn @link:to",
-    "@link:from": "lerna exec yarn @link:from"
+    "@link:from": "lerna exec yarn @link:from",
+    "pretest": "yarn setup",
+    "test": "yarn all test"
   },
   "devDependencies": {
     "lerna": "2.0.0-beta.34"

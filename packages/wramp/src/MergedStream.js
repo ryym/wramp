@@ -10,7 +10,7 @@ export default class MergedStream {
   }
 
   _startCall(type, methodData) {
-    const data = { methodData, includes: [] };
+    const data = { ...methodData, includes: [] };
     if (this._during) {
       this._during.includes.push(data);
     }
@@ -20,7 +20,7 @@ export default class MergedStream {
   }
 
   _finishCall(type, methodData) {
-    if (this._during.methodData.methodName === methodData.methodName) {
+    if (this._during.methodName === methodData.methodName) {
       const data = this._during;
       this._during = undefined;
       this.emitter.emit(type, data);

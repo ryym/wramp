@@ -4,7 +4,7 @@ import getClassExtender from './utils/classExtender';
 
 const EMITTER_KEY = '__WRAMP_EMITTER_KEY__';
 
-const extendClass = getClassExtender()
+const extendClass = getClassExtender();
 
 /**
  * Event types published from a wrapped class
@@ -52,7 +52,7 @@ const defineSubClass = (OriginalClass, config = {}) => {
     if (config.autoBind === true) {
       bindMethodContext(_this);
     }
-  })
+  });
 };
 
 const wrapMethods = (className, proto, isTarget = () => true) => {

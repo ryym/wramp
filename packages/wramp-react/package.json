@@ -5,6 +5,12 @@
   "author": "ryym <ryym.64@gmail.com>",
   "license": "MIT",
   "repository": "https://github.com/ryym/wramp",
+  "files": [
+    "dist",
+    "src",
+    "index.js",
+    "yarn.lock"
+  ],
   "scripts": {
     "@link:from": ":",
     "@link:to": "yarn link wramp",

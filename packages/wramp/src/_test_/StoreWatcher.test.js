@@ -1,86 +1,45 @@
 import test from 'ava';
 import StoreWatcher from '../StoreWatcher';
-import MockStream from './MockStream';
+import MockStream from './mocks/MockStream';
 
-test('#getStore returns a store its stream has', t => {
-  const mockStore = {};
-  const watcher = new StoreWatcher(new MockStream(mockStore));
-  t.is(watcher.getStore(), mockStore);
+test('#getStore returns store', t => {
+  const store = { /* dummy store */ };
+  const watcher = new StoreWatcher(store);
+  t.is(watcher.getStore(), store);
 });
 
-test('#onUpdate notifies an update event', t => {
+test('#onUpdate registers handler at after-call update', t => {
   const stream = new MockStream();
-  const watcher = new StoreWatcher(stream);
-
-  const updates = [];
-  watcher.onUpdate(data => {
-    updates.push(data);
+  const watcher = new StoreWatcher(null, stream, {
+    updateEvent: 'UPDATE',
   });
+  const calls = [];
 
-  stream.emitUpdateStart('method1', [1, 2]);
-  stream.emitUpdateEnd('method1');
-  stream.emitUpdateStart('method2', [2, 3]);
-  stream.emitUpdateEnd('method2');
-
-  t.deepEqual(updates, [{
-    methodName: 'method1',
-    payload: [1, 2],
-    includes: [],
-  }, {
-    methodName: 'method2',
-    payload: [2, 3],
-    includes: [],
-  }]);
-});
-
-test('#onUpdate notifies an update event with other updates it uses', t => {
-  const stream = new MockStream();
-  const watcher = new StoreWatcher(stream);
-
-  const updates = [];
   watcher.onUpdate(data => {
-    updates.push(data);
+    calls.push(data.methodName);
   });
+  stream.emitBefore('UPDATE', 'method1', []);
+  stream.emitBefore('UPDATE', 'method2', []);
+  stream.emitAfter('UPDATE', 'method2', []);
+  stream.emitAfter('UPDATE', 'method1', []);
 
-  stream.emitUpdateStart('method1', [1, 2]);
-  stream.emitUpdateStart('method2', [2, 3]);
-  stream.emitUpdateEnd('method2');
-  stream.emitUpdateEnd('method1');
-  stream.emitUpdateStart('method3', [3, 4]);
-  stream.emitUpdateEnd('method3');
-
-  t.deepEqual(updates, [{
-    methodName: 'method1',
-    payload: [1, 2],
-    includes: [{
-      methodName: 'method2',
-      payload: [2, 3],
-      includes: [],
-    }],
-  }, {
-    methodName: 'method3',
-    payload: [3, 4],
-    includes: [],
-  }]);
+  t.deepEqual(calls, ['method2', 'method1']);
 });
 
-test('#onEffect notifies an effect event', t => {
+test('#onEffect registers handler at before-call effect', t => {
   const stream = new MockStream();
-  const watcher = new StoreWatcher(stream);
+  const watcher = new StoreWatcher(null, stream, {
+    effectEvent: 'EFFECT',
+  });
+  const calls = [];
 
-  const effects = [];
   watcher.onEffect(data => {
-    effects.push(data);
+    calls.push(data.methodName);
   });
+  stream.emitBefore('EFFECT', 'method1', []);
+  stream.emitBefore('EFFECT', 'method2', []);
+  stream.emitAfter('EFFECT', 'method2', []);
+  stream.emitAfter('EFFECT', 'method1', []);
 
-  stream.emitEffect('method1', [1, 2]);
-  stream.emitEffect('method2', [2, 3]);
-
-  t.deepEqual(effects, [{
-    methodName: 'method1',
-    payload: [1, 2],
-  }, {
-    methodName: 'method2',
-    payload: [2, 3],
-  }]);
+  t.deepEqual(calls, ['method1', 'method2']);
 });

@@ -1,8 +1,6 @@
 import test from 'ava';
-import defineProxyClass, {
-  EventTypes,
-  subscribe,
-} from '../defineProxyClass';
+import { EventEmitter } from 'events';
+import defineProxyClass, { Phases, getSubscriber } from '../proxyClassDefiner';
 
 test('provide the same methods as a wrapped class', t => {
   const WA = defineProxyClass(
@@ -38,22 +36,39 @@ test('leave properties defined in a wrapped class', t => {
   );
 });
 
+class MockEmitter {
+  constructor() {
+    this.emitter = new EventEmitter();
+  }
+
+  on(handler) {
+    this.emitter.on('EVENT', handler);
+  }
+
+  emitAll(phase, types, data) {
+    this.emitter.emit('EVENT', { phase, types, data });
+  }
+}
+
 test('notify before and after a method is called', t => {
+  const config = {
+    createEventEmitter: () => new MockEmitter(),
+    events: [['ANY', () => true]],
+  };
   const calls = [];
   const WA = defineProxyClass(
     class A {
       method() { calls.push('method'); }
-    }
+    },
+    config
   );
   const wa = new WA();
+  const subscribe = getSubscriber(wa);
 
-  subscribe(wa, EventTypes.METHOD_CALL_START, () => {
-    calls.push('before-method');
-  });
-  subscribe(wa, EventTypes.METHOD_CALL_END, () => {
-    calls.push('after-method');
+  subscribe(data => {
+    calls.push(data.phase);
   });
 
   wa.method();
-  t.deepEqual(calls, ['before-method', 'method', 'after-method']);
+  t.deepEqual(calls, [Phases.BEFORE_CALL, 'method', Phases.AFTER_CALL]);
 });

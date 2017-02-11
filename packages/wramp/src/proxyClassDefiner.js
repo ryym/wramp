@@ -19,7 +19,7 @@ export const getSubscriber = wrappee => {
 };
 
 export default function defineProxyClass(OriginalClass, config = {}) {
-  const ProxyClass = defineSubClass(OriginalClass);
+  const ProxyClass = defineSubClass(OriginalClass, config);
   const wrappedMethods = wrapMethods(
     OriginalClass.name,
     OriginalClass.prototype,
@@ -29,17 +29,20 @@ export default function defineProxyClass(OriginalClass, config = {}) {
   return ProxyClass;
 }
 
-const defineSubClass = (OriginalClass, config = {}) => {
+const defineSubClass = (OriginalClass, {
+  createEventEmitter = phases => new PhaseEventEmitter(phases),
+  autoBind = false,
+}) => {
   return extendClass(OriginalClass, _this => {
     const phases = Object.keys(Phases).map(k => Phases[k]);
     Object.defineProperty(_this, EMITTER_KEY, {
-      value: new PhaseEventEmitter(phases),
+      value: createEventEmitter(phases),
       configurable: false,
       enumerable: false,
       writable: false,
     });
 
-    if (config.autoBind === true) {
+    if (autoBind) {
       bindMethodContext(_this);
     }
   });
@@ -54,7 +57,7 @@ const getEventTypes = (method, defs) => {
   }, []);
 };
 
-const wrapMethods = (className, proto, eventDefs) => {
+const wrapMethods = (className, proto, eventDefs = []) => {
   const properties = Object.getOwnPropertyNames(proto);
 
   return properties.reduce((wrappedProto, name) => {

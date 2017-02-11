@@ -1,70 +1,46 @@
-import EventEmitter from './EventEmitter';
-import bindMethodContext from './utils/bindMethodContext';
-
-const EventTypes = {
-  UPDATE: 'UPDATE',
-  EFFECT: 'EFFECT',
-};
+import { DefaultEventTypes as Types } from './defaultEvents';
 
 export default class StoreWatcher {
-  constructor(stream, subAggrs = []) {
-    bindMethodContext(this);
-    this._emitter = new EventEmitter();
-    this._stream = stream;
-
-    stream.onUpdateStart(this._startUpdate);
-    stream.onUpdateEnd(this._finishUpdate);
-    stream.onEffect(this._emitEffect);
-
-    subAggrs.forEach(sub => {
-      sub.onUpdate(this._handleSubStoreUpdate);
-      sub.onEffect(this._emitEffect);
-    });
+  constructor(store, stream, {
+    updateEvent = Types.UPDATE,
+    effectEvent = Types.EFFECT,
+    forkUpdateStream = stream => stream,
+  } = {}) {
+    this.store = store;
+    this.stream = stream;
+    this.updateStream = forkUpdateStream(stream, updateEvent);
+    this.config = { updateEvent, effectEvent };
   }
 
   getStore() {
-    return this._stream.getStore();
+    return this.store;
+  }
+
+  getStream() {
+    return this.stream;
   }
 
   onUpdate(handler) {
-    return this._emitter.on(EventTypes.UPDATE, handler);
+    return this.updateStream.afterCall(this.config.updateEvent, data => {
+      handler(data, this.store)
+    });
   }
 
   onEffect(handler) {
-    return this._emitter.on(EventTypes.EFFECT, handler);
+    return this.stream.beforeCall(this.config.effectEvent, data => {
+      handler(data, this.store)
+    });
   }
 
-  _emitUpdate(data, store) {
-    this._emitter.emit(EventTypes.UPDATE, data, store);
+  beforeCall(type, handler) {
+    return this.stream.beforeCall(type, data => {
+      handler(data, this.store)
+    });
   }
 
-  _emitEffect(data) {
-    this._emitter.emit(EventTypes.EFFECT, data);
-  }
-
-  _startUpdate(data) {
-    const updateData = { ...data, includes: [] };
-    if (this._currentUpdate) {
-      this._currentUpdate.includes.push(updateData);
-    }
-    else {
-      this._currentUpdate = updateData;
-    }
-  }
-
-  _finishUpdate({ methodName }, store) {
-    if (this._currentUpdate.methodName === methodName) {
-      this._emitUpdate(this._currentUpdate, store);
-      delete this._currentUpdate;
-    }
-  }
-
-  _handleSubStoreUpdate(data, store) {
-    if (this._currentUpdate) {
-      this._currentUpdate.includes.push(data);
-    }
-    else {
-      this._emitUpdate(data, store);
-    }
+  afterCall(type, handler) {
+    return this.stream.afterCall(type, handler, data => {
+      handler(data, this.store)
+    });
   }
 }

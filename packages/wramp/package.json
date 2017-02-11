@@ -12,11 +12,11 @@
     "watch": "babel src --out-dir dist --watch",
     "lint:src": "eslint --fix src",
     "lint:test": "eslint --fix test",
-    "test": "ava 'src/**/*.test.js'",
-    "test:w": "yarn test -- --watch",
-    "test:intg": "ava 'test/intg/**/*.js'",
-    "test:intg:w": "yarn test:intg -- --watch",
-    "test:all": "yarn test && yarn test:intg"
+    "ut": "ava 'src/**/*.test.js'",
+    "ut:w": "yarn ut -- --watch",
+    "it": "ava 'test/intg/**/*.js'",
+    "it:w": "yarn it -- --watch",
+    "test": "yarn ut && yarn it"
   },
   "devDependencies": {
     "ava": "0.18.1",

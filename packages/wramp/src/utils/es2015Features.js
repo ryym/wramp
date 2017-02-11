@@ -5,13 +5,13 @@
 
 const isValid = code => {
   try {
-    eval(code)
-    return true
+    eval(code);  // eslint-disable-line no-eval
+    return true;
   }
   catch (_) {
-    return false
+    return false;
   }
-}
+};
 
-export const classSyntax = isValid('class A {}')
-export const spreadOperator = isValid('[1, ...[1,2,3]]')
+export const classSyntax = isValid('class A {}');
+export const spreadOperator = isValid('[1, ...[1,2,3]]');

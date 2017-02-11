@@ -8,10 +8,11 @@
  *  but need to use `eval` to avoid syntax error on runtime where `class` is not available.
  */
 
-// TODO: Unit tests
+/* eslint-disable no-eval */
 
-import * as es2015 from './es2015Features'
+import * as es2015 from './es2015Features';
 
+// eslint-disable-next-line no-unused-vars
 const extendByClass = (OriginalClass, initialize) => {
   return eval(`
     class WrampSubClass extends OriginalClass {
@@ -21,10 +22,11 @@ const extendByClass = (OriginalClass, initialize) => {
       }
     };
     WrampSubClass
-  `)
-}
+  `);
+};
 
 // XXX: We can't use `apply` for `super`.
+// eslint-disable-next-line no-unused-vars
 const extendByClassWithoutSpread = (OriginalClass, initialize) => {
   return eval(`
     class WrampSubClass extends OriginalClass {
@@ -34,29 +36,29 @@ const extendByClassWithoutSpread = (OriginalClass, initialize) => {
       }
     };
     WrampSubClass
-  `)
-}
+  `);
+};
 
 const extendByPrototype = (OriginalClass, initialize) => {
   function WrampSubClass(...args) {
-    OriginalClass.apply(this, args)
-    initialize(this)
+    OriginalClass.apply(this, args);
+    initialize(this);
   }
-  WrampSubClass.prototype = Object.create(OriginalClass.prototype)
-  WrampSubClass.prototype.constructor = WrampSubClass
+  WrampSubClass.prototype = Object.create(OriginalClass.prototype);
+  WrampSubClass.prototype.constructor = WrampSubClass;
 
-  return WrampSubClass
-}
+  return WrampSubClass;
+};
 
 export default function getClassExtender({
   classSyntax = es2015.classSyntax,
   spreadOperator = es2015.spreadOperator,
 } = {}) {
   if (classSyntax && spreadOperator) {
-    return extendByClass
+    return extendByClass;
   }
   else if (classSyntax) {
-    return extendByClassWithoutSpread
+    return extendByClassWithoutSpread;
   }
-  return extendByPrototype
+  return extendByPrototype;
 }

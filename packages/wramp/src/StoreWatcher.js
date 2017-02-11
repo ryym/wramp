@@ -1,15 +1,15 @@
-import { DefaultEventTypes } from './defaultEvents';
-
-const makeDefaultConfig = () => ({
-  effectEvent: DefaultEventTypes.EFFECT,
-});
+import { DefaultEventTypes as Types } from './defaultEvents';
 
 export default class StoreWatcher {
-  constructor(store, stream, updateStream, config = makeDefaultConfig()) {
+  constructor(store, stream, {
+    updateEvent = Types.UPDATE,
+    effectEvent = Types.EFFECT,
+    forkUpdateStream = stream => stream,
+  } = {}) {
     this.store = store;
     this.stream = stream;
-    this.updateStream = updateStream;
-    this.config = config;
+    this.updateStream = forkUpdateStream(stream, [updateEvent]);
+    this.config = { updateEvent, effectEvent };
   }
 
   getStore() {
@@ -21,7 +21,7 @@ export default class StoreWatcher {
   }
 
   onUpdate(handler) {
-    this.updateStream.afterCall(handler);
+    this.updateStream.afterCall(this.config.updateEvent, handler);
   }
 
   onEffect(handler) {

@@ -1,11 +1,12 @@
 import EventEmitter from './EventEmitter';
 
 export default class MergedStream {
-  constructor(stream, type) {
-    stream.beforeCall(type, data => this._startCall(type, data));
-    stream.afterCall(type, data => this._finishCall(type, data));
+  constructor(stream, types) {
+    types.forEach(type => {
+      stream.beforeCall(type, data => this._startCall(type, data));
+      stream.afterCall(type, data => this._finishCall(type, data));
+    });
     this.stream = stream;
-    this.type = type;
     this.emitter = new EventEmitter();
   }
 
@@ -27,11 +28,11 @@ export default class MergedStream {
     }
   }
 
-  beforeCall(handler) {
-    return this.stream.beforeCall(this.type, handler);
+  beforeCall(type, handler) {
+    return this.stream.beforeCall(type, handler);
   }
 
-  afterCall(handler) {
-    return this.emitter.on(this.type, handler);
+  afterCall(type, handler) {
+    return this.emitter.on(type, handler);
   }
 }

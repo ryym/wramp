@@ -19,10 +19,14 @@ export const forkMergedStream = (stream, type) => {
 
 export const watch = (store, subWatchers, {
   updateEvent = Types.UPDATE,
+  effectEvent = Types.EFFECT,
 } = {}) => {
   const stream = makeStream(store, subWatchers);
-  const updateStream = forkMergedStream(stream, updateEvent);
-  return new StoreWatcher(store, stream, updateStream);
+  return new StoreWatcher(store, stream, {
+    updateEvent,
+    effectEvent,
+    forkUpdateStream: forkMergedStream,
+  });
 };
 
 const makeDefaultStoreConfig = () => ({

@@ -1,4 +1,3 @@
-
 export const DefaultEventTypes = {
   UPDATE: 'WRAMP_UPDATE',
   EFFECT: 'WRAMP_EFFECT',

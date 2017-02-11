@@ -15,6 +15,9 @@ export const Phases = Object.freeze({
 
 export const getSubscriber = wrappee => {
   const emitter = wrappee[EMITTER_KEY];
+  if (! emitter) {
+    throw new Error(`The given store seems not a store: ${wrappee}`);
+  }
   return emitter.on.bind(emitter);
 };
 

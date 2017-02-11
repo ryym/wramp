@@ -13,8 +13,9 @@ export const makeStream = (store, subWatchers = []) => {
   return new CallStream(subscribe, subStreams);
 };
 
-export const forkMergedStream = (stream, type) => {
-  return new MergedStream(stream, type);
+export const forkMergedStream = (stream, typeOrTypes) => {
+  const types = Array.isArray(typeOrTypes) ? typeOrTypes : [typeOrTypes];
+  return new MergedStream(stream, types);
 };
 
 export const watch = (store, subWatchers, {

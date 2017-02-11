@@ -10,6 +10,9 @@ export default class PhaseEventEmitter {
 
   on(phase, type, handler) {
     const emitter = this.emitters[phase];
+    if (! emitter) {
+      throw new Error(`The phase ${phase} does not exist`);
+    }
     return emitter.on(type, handler);
   }
 

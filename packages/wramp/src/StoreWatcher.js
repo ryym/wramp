@@ -8,7 +8,7 @@ export default class StoreWatcher {
   } = {}) {
     this.store = store;
     this.stream = stream;
-    this.updateStream = forkUpdateStream(stream, [updateEvent]);
+    this.updateStream = forkUpdateStream(stream, updateEvent);
     this.config = { updateEvent, effectEvent };
   }
 

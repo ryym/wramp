@@ -9,7 +9,9 @@
     "all:root-bin": "yarn all -- add --dev file:../../root-bin",
     "@link:to": "lerna exec yarn @link:to",
     "@link:from": "lerna exec yarn @link:from",
-    "lint": "eslint root-bin && yarn all lint",
+    "lint": "yarn lint:root-bin && yarn lint:eg && yarn all lint",
+    "lint:root-bin": "eslint --fix root-bin",
+    "lint:eg": "eslint --fix examples",
     "lint:pkgs": "yarn all lint",
     "pretest": "yarn setup",
     "test": "yarn all lint && yarn all test"

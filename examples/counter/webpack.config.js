@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const PACKAGES_PATH = path.join( __dirname, '..', '..', '..');
+const PACKAGES_PATH = path.join( __dirname, '..', '..', 'packages');
 
 module.exports = {
   resolve: {
     alias: {
-      'wramp': path.join(PACKAGES_PATH, 'wramp'),
-      'wramp-react': path.join(PACKAGES_PATH, 'wramp-react'),
+      wramp: path.join(PACKAGES_PATH, 'wramp'),
     },
   },
 

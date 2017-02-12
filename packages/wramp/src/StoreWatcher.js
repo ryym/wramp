@@ -22,25 +22,25 @@ export default class StoreWatcher {
 
   onUpdate(handler) {
     return this.updateStream.afterCall(this.config.updateEvent, data => {
-      handler(data, this.store)
+      handler(data, this.store);
     });
   }
 
   onEffect(handler) {
     return this.stream.beforeCall(this.config.effectEvent, data => {
-      handler(data, this.store)
+      handler(data, this.store);
     });
   }
 
   beforeCall(type, handler) {
     return this.stream.beforeCall(type, data => {
-      handler(data, this.store)
+      handler(data, this.store);
     });
   }
 
   afterCall(type, handler) {
     return this.stream.afterCall(type, handler, data => {
-      handler(data, this.store)
+      handler(data, this.store);
     });
   }
 }

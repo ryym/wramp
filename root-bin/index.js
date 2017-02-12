@@ -10,17 +10,16 @@
  */
 
 const path = require('path');
-const { spawn } = require('child_process');
+const spawn = require('child_process').spawn;
 
 const REPO_TO_ROOT_PATH = '../../';
 const NPM_BIN_PATH = 'node_modules/.bin';
 const toRepoPath = binPath => path.resolve(binPath, '../../../');
 const toRootRepoPath = repoPath => path.resolve(repoPath, REPO_TO_ROOT_PATH);
 
-const { argv } = process;
-const binPath = argv[1];  // A path like `/xx/packages/repo/node_modules/.bin/root`
-const command = argv[2];
-const options = argv.slice(3);
+const binPath = process.argv[1];  // A path like `/xx/packages/repo/node_modules/.bin/root`
+const command = process.argv[2];
+const options = process.argv.slice(3);
 
 const rootPath = toRootRepoPath(toRepoPath(binPath));
 const commandPath = `${rootPath}/${NPM_BIN_PATH}/${command}`;

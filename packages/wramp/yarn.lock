@@ -1188,6 +1188,10 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
+"file:../../root-bin":
+  name wramp-root-bin
+  version "0.1.0"
+
 filename-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.0.tgz#996e3e80479b98b9897f15a8a58b3d084e926775"
@@ -2851,7 +2855,7 @@ widest-line@^1.0.0:
     string-width "^1.0.1"
 
 "wramp-root-bin@file:../../root-bin":
-  version "0.0.1"
+  version "0.1.0"
 
 wrappy@1:
   version "1.0.2"

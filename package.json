@@ -8,8 +8,10 @@
     "all:link": "yarn @link:from && yarn @link:to",
     "@link:to": "lerna exec yarn @link:to",
     "@link:from": "lerna exec yarn @link:from",
+    "lint": "eslint root-bin && yarn all lint",
+    "lint:pkgs": "yarn all lint",
     "pretest": "yarn setup",
-    "test": "yarn all test"
+    "test": "yarn all lint && yarn all test"
   },
   "devDependencies": {
     "eslint": "^3.15.0",

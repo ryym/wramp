@@ -12,4 +12,6 @@ before_script:
   - pushd packages/wramp-react && yarn install && popd
   - yarn all:link
 
-script: yarn test
+script:
+  - yarn lint
+  - yarn test

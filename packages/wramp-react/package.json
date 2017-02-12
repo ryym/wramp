@@ -16,6 +16,7 @@
     "@link:to": "yarn link wramp",
     "build": "babel src --out-dir dist",
     "watch": "babel src --out-dir dist --watch",
+    "lint": "yarn lint:src",
     "lint:src": "root eslint --fix src",
     "test": ":"
   },

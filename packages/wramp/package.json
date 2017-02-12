@@ -16,6 +16,7 @@
     "@link:to": ":",
     "build": "babel src --out-dir dist",
     "watch": "babel src --out-dir dist --watch",
+    "lint": "yarn lint:src && yarn lint:test",
     "lint:src": "root eslint --fix src",
     "lint:test": "root eslint --fix test",
     "ut": "ava 'src/**/*.test.js'",

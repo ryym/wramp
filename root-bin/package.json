@@ -1,0 +1,12 @@
+{
+  "name": "wramp-root-bin",
+  "description": "A private package to use root modules from the packages",
+  "private": true,
+  "version": "0.0.1",
+  "files": [
+    "index.js"
+  ],
+  "bin": {
+    "root": "index.js"
+  }
+}

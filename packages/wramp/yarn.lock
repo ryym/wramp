@@ -1443,6 +1443,10 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
+"file:../../root-bin":
+  name wramp-root-bin
+  version "0.0.1"
+
 filename-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.0.tgz#996e3e80479b98b9897f15a8a58b3d084e926775"
@@ -3343,6 +3347,9 @@ widest-line@^1.0.0:
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+"wramp-root-bin@file:../../root-bin":
+  version "0.0.1"
 
 wrappy@1:
   version "1.0.2"

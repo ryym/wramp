@@ -34,7 +34,8 @@
     "eslint": "^3.14.0",
     "eslint-config-ryym": "^1.4.0",
     "flow-bin": "^0.38.0",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "wramp-root-bin": "file:../../root-bin"
   },
   "ava": {
     "source": [

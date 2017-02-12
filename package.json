@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "setup": "yarn all:install && yarn all:link",
-    "all": "lerna exec yarn",
+    "all": "lerna exec -- yarn",
     "all:install": "yarn && yarn all install",
     "all:link": "yarn @link:from && yarn @link:to",
+    "all:root-bin": "yarn all -- add --dev file:../../root-bin",
     "@link:to": "lerna exec yarn @link:to",
     "@link:from": "lerna exec yarn @link:from",
     "lint": "eslint root-bin && yarn all lint",

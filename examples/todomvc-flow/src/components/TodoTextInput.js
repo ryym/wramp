@@ -15,16 +15,14 @@ export default class TodoTextInput extends React.Component {
   }
 
   state = {
-    text: this.props.text || '',
+    text: this.props.text,
   }
 
   handleSubmit = (event: SyntheticInputEvent) => {
     const text = event.target.value.trim();
     if (event.keyCode === ENTER_KEY_CODE) {
       this.props.onSave(text);
-      if (this.props.newTodo) {
-        this.setState({ text: '' });
-      }
+      this.setState({ text: '' });
     }
   }
 
@@ -40,8 +38,8 @@ export default class TodoTextInput extends React.Component {
 
   render() {
     return (
-      <input className={
-        classnames({
+      <input
+        className={classnames({
           edit: this.props.editing,
           'new-todo': this.props.newTodo,
         })}

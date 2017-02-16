@@ -29,6 +29,17 @@ class MainSection extends React.Component {
     this.props.changeFilter(filter);
   }
 
+  handleTodoSave = (id: number, title: string) => {
+    console.log('H', id, title);
+    if (title.length === 0) {
+      this.props.deleteTodo(id);
+    }
+    else {
+      this.props.updateTodo(id, title);
+    }
+    this.props.finishEditing();
+  }
+
   renderToggleAll(toggleCompletedAll: () => void, counts: TodoCounts) {
     if (counts.all > 0) {
       return (
@@ -68,11 +79,10 @@ class MainSection extends React.Component {
               key={todo.id}
               todo={todo}
               editing={todo.id === editedId}
-              updateTodo={props.updateTodo}
-              deleteTodo={props.deleteTodo}
-              toggleCompleted={props.toggleCompleted}
+              onDeleteClick={props.deleteTodo}
+              onCompletedToggle={props.toggleCompleted}
               onEditStart={props.startEditing}
-              onEditEnd={props.finishEditing}
+              onEditEnd={this.handleTodoSave}
             />
           )}
         </ul>

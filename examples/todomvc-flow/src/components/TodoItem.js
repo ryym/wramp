@@ -9,60 +9,49 @@ export default class TodoItem extends React.Component {
   props: {
     todo: Todo,
     editing: boolean,
-    updateTodo: (id: number, title: string) => void,
-    deleteTodo: (id: number) => void,
-    toggleCompleted: (id: number) => void,
+    onDeleteClick: (id: number) => void,
+    onCompletedToggle: (id: number) => void,
     onEditStart: (id: number) => void,
-    onEditEnd: () => void,
+    onEditEnd: (id: number, title: string) => void,
   }
 
-  handleDoubleClick = () => {
-    const { todo, onEditStart } = this.props;
-    onEditStart(todo.id);
+  renderEditableItem(todo: Todo) {
+    const { onEditEnd } = this.props;
+    return (
+      <TodoTextInput
+        editing
+        text={todo.title}
+        onSave={(title) => onEditEnd(todo.id, title)}
+      />
+    );
   }
 
-  handleSave = (id: number, title: string): void => {
-    if (title.length === 0) {
-      this.props.deleteTodo(id);
-    }
-    else {
-      this.props.updateTodo(id, title);
-    }
-    this.props.onEditEnd();
+  renderReadonlyItem(todo: Todo) {
+    const { onCompletedToggle, onDeleteClick, onEditStart } = this.props;
+    return (
+      <div className="view">
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => onCompletedToggle(todo.id)}
+        />
+        <label onDoubleClick={() => onEditStart(todo.id)}>
+          {todo.title}
+        </label>
+        <button
+          className="destroy"
+          onClick={() => onDeleteClick(todo.id)}
+        />
+      </div>
+    );
   }
 
   render() {
-    const { todo, toggleCompleted, deleteTodo } = this.props;
-
-    let element;
-    if (this.props.editing) {
-      element = (
-        <TodoTextInput
-          text={todo.title}
-          editing={this.props.editing}
-          onSave={(title) => this.handleSave(todo.id, title)}
-        />
-      );
-    }
-    else {
-      element = (
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={todo.completed}
-            onChange={() => toggleCompleted(todo.id)}
-          />
-          <label onDoubleClick={this.handleDoubleClick}>
-            {todo.title}
-          </label>
-          <button
-            className="destroy"
-            onClick={() => deleteTodo(todo.id)}
-          />
-        </div>
-      );
-    }
+    const { todo } = this.props;
+    const element = this.props.editing
+      ? this.renderEditableItem(todo)
+      : this.renderReadonlyItem(todo);
 
     return (
       <li className={classnames({

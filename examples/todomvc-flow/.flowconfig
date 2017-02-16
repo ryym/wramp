@@ -1,0 +1,7 @@
+[libs]
+../../packages/wramp/types/wramp.flow.js
+../../packages/wramp-react/types/wramp-react.flow.js
+
+# https://github.com/facebook/flow/issues/1548
+[ignore]
+.*/node_modules/fbjs/*

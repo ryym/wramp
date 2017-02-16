@@ -93,8 +93,7 @@ class MainSection extends React.Component {
   }
 }
 
-const propsMapper = (store: AppState) => {
-  const { todoList } = store;
+const propsMapper = ({ inputs, todoList, getFilteredTodos }: AppState) => {
   const toggleCompletedAll = (): void => {
     const counts = todoList.getTodoCounts();
     if (counts.all > 0) {
@@ -104,12 +103,12 @@ const propsMapper = (store: AppState) => {
   };
 
   return (): MainSectionProps => ({
-    todos: store.getFilteredTodos(),
-    filter: store.getCurrentFilter(),
-    editedId: store.getEditedId(),
-    changeFilter: store.$changeFilter,
-    startEditing: store.$startEditing,
-    finishEditing: store.$finishEditing,
+    todos: getFilteredTodos(),
+    filter: inputs.getCurrentFilter(),
+    editedId: inputs.getEditedId(),
+    changeFilter: inputs.$changeFilter,
+    startEditing: inputs.$startEditing,
+    finishEditing: inputs.$finishEditing,
     counts: todoList.getTodoCounts(),
     updateTodo: todoList.$updateTodo,
     deleteTodo: todoList.$deleteTodo,

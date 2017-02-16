@@ -20,8 +20,8 @@ const TodoApp = ({ addTodo }: TodoAppProps) => {
   );
 };
 
-const propsMapper = (store: AppState) => (): TodoAppProps => ({
-  addTodo: store.todoList.$addTodo,
+const propsMapper = ({ todoList }: AppState) => (): TodoAppProps => ({
+  addTodo: todoList.$addTodo,
 });
 
 export default connect(TodoApp, { propsMapper });

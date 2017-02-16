@@ -30,16 +30,14 @@ export const watch = (store, subWatchers, {
   });
 };
 
-const makeDefaultStoreConfig = () => ({
-  events: [
-    [Types.UPDATE, isUpdate],
-    [Types.EFFECT, isEffect],
-  ],
-});
+const makeDefaultEvents = () => [
+  [Types.UPDATE, isUpdate],
+  [Types.EFFECT, isEffect],
+];
 
-export const defineStore = (
-  StateClass,
-  config = makeDefaultStoreConfig()
-) => {
-  return defineProxyClass(StateClass, config);
+export const defineStore = (StateClass, {
+  autoBind = false,
+  events = makeDefaultEvents(),
+} = {}) => {
+  return defineProxyClass(StateClass, { autoBind, events });
 };

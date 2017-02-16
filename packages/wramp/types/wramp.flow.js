@@ -19,7 +19,8 @@ declare module 'wramp' {
   declare interface EffectData extends EventData {}
 
   declare interface WatcherConfig {
-    subWatchers: [StoreWatcher<any>];
+    updateEvent?: string;
+    effectEvent?: string;
   }
 
   declare class StoreWatcher<S: Store<any>> {
@@ -30,6 +31,7 @@ declare module 'wramp' {
 
   declare function watch<S: Store<any>>(
     store: S,
+    subWatchers?: StoreWatcher<any>[],
     config?: WatcherConfig<S>
   ): StoreWatcher<S>;
 }

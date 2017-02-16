@@ -1,9 +1,5 @@
 // @flow
 
-// XXX:
-// 元のReduxのAction名が結構イマイチなので、alminを参考に
-// 後でもっとマシにする
-
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import Todo from '../models/Todo';
 

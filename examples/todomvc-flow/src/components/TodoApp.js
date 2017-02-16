@@ -2,7 +2,7 @@
 
 import React from 'react';
 import connect from '../connect';
-import type TodoState from '../store/TodoState';
+import type AppState from '../store/AppState';
 import Header from './Header';
 import MainSection from './MainSection';
 
@@ -20,8 +20,8 @@ const TodoApp = ({ addTodo }: TodoAppProps) => {
   );
 };
 
-const propsMapper = (store: TodoState) => (): TodoAppProps => ({
-  addTodo: store.$addTodo,
+const propsMapper = (store: AppState) => (): TodoAppProps => ({
+  addTodo: store.todoList.$addTodo,
 });
 
 export default connect(TodoApp, { propsMapper });

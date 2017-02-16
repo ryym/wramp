@@ -5,7 +5,8 @@ import connect from '../connect';
 import TodoItem from './TodoItem';
 import Footer from './Footer';
 import type Todo from '../models/Todo';
-import type TodoState, { TodoCounts } from '../store/TodoState';
+import type AppState from '../store/AppState';
+import type { TodoCounts } from '../store/TodoState';
 
 type MainSectionProps = {
   todos: Todo[],
@@ -92,12 +93,13 @@ class MainSection extends React.Component {
   }
 }
 
-const propsMapper = (store: TodoState) => {
+const propsMapper = (store: AppState) => {
+  const { todoList } = store;
   const toggleCompletedAll = (): void => {
-    const counts = store.getTodoCounts();
+    const counts = todoList.getTodoCounts();
     if (counts.all > 0) {
       const allCompleted = counts.active === 0;
-      store.$toggleCompletedAll(!allCompleted);
+      todoList.$toggleCompletedAll(!allCompleted);
     }
   };
 
@@ -105,14 +107,14 @@ const propsMapper = (store: TodoState) => {
     todos: store.getFilteredTodos(),
     filter: store.getCurrentFilter(),
     editedId: store.getEditedId(),
-    counts: store.getTodoCounts(),
-    updateTodo: store.$updateTodo,
-    deleteTodo: store.$deleteTodo,
-    deleteCompleted: store.$deleteCompleted,
     changeFilter: store.$changeFilter,
-    toggleCompleted: store.$toggleCompleted,
     startEditing: store.$startEditing,
     finishEditing: store.$finishEditing,
+    counts: todoList.getTodoCounts(),
+    updateTodo: todoList.$updateTodo,
+    deleteTodo: todoList.$deleteTodo,
+    deleteCompleted: todoList.$deleteCompleted,
+    toggleCompleted: todoList.$toggleCompleted,
     toggleCompletedAll,
   });
 };

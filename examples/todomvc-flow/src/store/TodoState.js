@@ -1,6 +1,5 @@
 // @flow
 
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 import Todo from '../models/Todo';
 
 export type TodoCounts = {
@@ -11,33 +10,13 @@ export type TodoCounts = {
 
 export default class TodoState {
   todos: Todo[];
-  filter: string;
-  editedId: ?number;
 
   constructor() {
     this.todos = [];
-    this.filter = SHOW_ALL;
-    this.editedId = null;
   }
 
-  takeSnapshot(): Object {
-    return {
-      todos: this.todos.map(t => t.takeSnapshot()),
-      filter: this.filter,
-      editedId: this.editedId,
-    };
-  }
-
-  getFilteredTodos(): Todo[] {
-    switch (this.filter) {
-    case SHOW_ALL:
-      return this.getAllTodos();
-    case SHOW_COMPLETED:
-      return this.getCompletedTodos();
-    case SHOW_ACTIVE:
-      return this.getActiveTodos();
-    }
-    return [];
+  takeSnapshot(): Object[] {
+    return this.todos.map(t => t.takeSnapshot());
   }
 
   getAllTodos(): Todo[] {
@@ -60,20 +39,12 @@ export default class TodoState {
     };
   }
 
-  getCurrentFilter(): string {
-    return this.filter;
-  }
-
   findTodoIndex(id: number): number {
     const idx = this.todos.map(t => t.id).indexOf(id);
     if (idx < 0) {
       throw new Error(`A Todo whose id is ${id} does not exist.`);
     }
     return idx;
-  }
-
-  $changeFilter(filter: string): void {
-    this.filter = filter;
   }
 
   $addTodo(title: string): void {
@@ -106,17 +77,5 @@ export default class TodoState {
 
   $deleteCompleted(): void {
     this.todos = this.todos.filter(t => !t.completed);
-  }
-
-  getEditedId(): ?number {
-    return this.editedId;
-  }
-
-  $startEditing(id: number): void {
-    this.editedId = id;
-  }
-
-  $finishEditing(): void {
-    this.editedId = null;
   }
 }

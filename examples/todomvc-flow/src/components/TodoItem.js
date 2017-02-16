@@ -8,7 +8,7 @@ import type Todo from '../models/Todo';
 export default class TodoItem extends React.Component {
   props: {
     todo: Todo,
-    editTodo: (id: number, title: string) => void,
+    updateTodo: (id: number, title: string) => void,
     deleteTodo: (id: number) => void,
     toggleCompleted: (id: number) => void,
   }
@@ -26,7 +26,7 @@ export default class TodoItem extends React.Component {
       this.props.deleteTodo(id);
     }
     else {
-      this.props.editTodo(id, title);
+      this.props.updateTodo(id, title);
     }
     this.setState({ editing: false });
   }

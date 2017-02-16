@@ -11,7 +11,7 @@ type MainSectionProps = {
   todos: Todo[],
   filter: string,
   counts: TodoCounts,
-  editTodo: (id: number, title: string) => void,
+  updateTodo: (id: number, title: string) => void,
   deleteTodo: (id: number) => void,
   deleteCompleted: () => void,
   changeFilter: (filter: string) => void,
@@ -64,7 +64,7 @@ class MainSection extends React.Component {
             <TodoItem
               key={todo.id}
               todo={todo}
-              editTodo={props.editTodo}
+              updateTodo={props.updateTodo}
               deleteTodo={props.deleteTodo}
               toggleCompleted={props.toggleCompleted}
             />
@@ -90,7 +90,7 @@ const propsMapper = (store: TodoState) => {
     todos: store.getFilteredTodos(),
     filter: store.getCurrentFilter(),
     counts: store.getTodoCounts(),
-    editTodo: store.$editTodo,
+    updateTodo: store.$updateTodo,
     deleteTodo: store.$deleteTodo,
     deleteCompleted: store.$deleteCompleted,
     changeFilter: store.$changeFilter,

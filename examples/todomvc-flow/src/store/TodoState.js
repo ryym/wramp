@@ -65,17 +65,24 @@ export default class TodoState {
     return this.filter;
   }
 
+  findTodoIndex(id: number): number {
+    const idx = this.todos.map(t => t.id).indexOf(id);
+    if (idx < 0) {
+      throw new Error(`A Todo whose id is ${id} does not exist.`);
+    }
+    return idx;
+  }
+
+  $changeFilter(filter: string): void {
+    this.filter = filter;
+  }
+
   $addTodo(title: string): void {
     const todo = Todo.create({ title });
     this.todos.push(todo);
   }
 
-  $deleteTodo(id: number): void {
-    const idx = this.findTodoIndex(id);
-    this.todos.splice(idx, 1);
-  }
-
-  $editTodo(id: number, title: string): void {
+  $updateTodo(id: number, title: string): void {
     const idx = this.findTodoIndex(id);
     this.todos[idx].title = title;
   }
@@ -86,14 +93,6 @@ export default class TodoState {
     todo.completed = !todo.completed;
   }
 
-  findTodoIndex(id: number): number {
-    const idx = this.todos.map(t => t.id).indexOf(id);
-    if (idx < 0) {
-      throw new Error(`A Todo whose id is ${id} does not exist.`);
-    }
-    return idx;
-  }
-
   $toggleCompletedAll(completed: boolean): void {
     this.todos = this.todos.map(todo => {
       todo.completed = completed;
@@ -101,11 +100,12 @@ export default class TodoState {
     });
   }
 
-  $deleteCompleted(): void {
-    this.todos = this.todos.filter(t => !t.completed);
+  $deleteTodo(id: number): void {
+    const idx = this.findTodoIndex(id);
+    this.todos.splice(idx, 1);
   }
 
-  $changeFilter(filter: string): void {
-    this.filter = filter;
+  $deleteCompleted(): void {
+    this.todos = this.todos.filter(t => !t.completed);
   }
 }

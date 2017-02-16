@@ -10,6 +10,7 @@ import type TodoState, { TodoCounts } from '../store/TodoState';
 type MainSectionProps = {
   todos: Todo[],
   filter: string,
+  editedId: ?number,
   counts: TodoCounts,
   updateTodo: (id: number, title: string) => void,
   deleteTodo: (id: number) => void,
@@ -17,6 +18,8 @@ type MainSectionProps = {
   changeFilter: (filter: string) => void,
   toggleCompleted: (id: number) => void,
   toggleCompletedAll: () => void,
+  startEditing: (id: number) => void,
+  finishEditing: () => void,
 }
 
 class MainSection extends React.Component {
@@ -54,7 +57,7 @@ class MainSection extends React.Component {
   }
 
   render() {
-    const { filter, counts, todos, ...props } = this.props;
+    const { filter, counts, todos, editedId, ...props } = this.props;
 
     return (
       <section className="main">
@@ -64,9 +67,12 @@ class MainSection extends React.Component {
             <TodoItem
               key={todo.id}
               todo={todo}
+              editing={todo.id === editedId}
               updateTodo={props.updateTodo}
               deleteTodo={props.deleteTodo}
               toggleCompleted={props.toggleCompleted}
+              onEditStart={props.startEditing}
+              onEditEnd={props.finishEditing}
             />
           )}
         </ul>
@@ -81,7 +87,6 @@ const propsMapper = (store: TodoState) => {
     const counts = store.getTodoCounts();
     if (counts.all > 0) {
       const allCompleted = counts.active === 0;
-      console.log(counts, allCompleted);
       store.$toggleCompletedAll(!allCompleted);
     }
   };
@@ -89,12 +94,15 @@ const propsMapper = (store: TodoState) => {
   return (): MainSectionProps => ({
     todos: store.getFilteredTodos(),
     filter: store.getCurrentFilter(),
+    editedId: store.getEditedId(),
     counts: store.getTodoCounts(),
     updateTodo: store.$updateTodo,
     deleteTodo: store.$deleteTodo,
     deleteCompleted: store.$deleteCompleted,
     changeFilter: store.$changeFilter,
     toggleCompleted: store.$toggleCompleted,
+    startEditing: store.$startEditing,
+    finishEditing: store.$finishEditing,
     toggleCompletedAll,
   });
 };

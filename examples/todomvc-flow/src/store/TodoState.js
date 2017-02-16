@@ -12,16 +12,19 @@ export type TodoCounts = {
 export default class TodoState {
   todos: Todo[];
   filter: string;
+  editedId: ?number;
 
   constructor() {
     this.todos = [];
     this.filter = SHOW_ALL;
+    this.editedId = null;
   }
 
   takeSnapshot(): Object {
     return {
       todos: this.todos.map(t => t.takeSnapshot()),
       filter: this.filter,
+      editedId: this.editedId,
     };
   }
 
@@ -103,5 +106,17 @@ export default class TodoState {
 
   $deleteCompleted(): void {
     this.todos = this.todos.filter(t => !t.completed);
+  }
+
+  getEditedId(): ?number {
+    return this.editedId;
+  }
+
+  $startEditing(id: number): void {
+    this.editedId = id;
+  }
+
+  $finishEditing(): void {
+    this.editedId = null;
   }
 }

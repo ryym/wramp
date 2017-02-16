@@ -1,4 +1,4 @@
-declare module '*wramp' { // TODO: remove *
+declare module 'wramp' {
     export type Store<Proto> = Proto
 
     export interface StoreClass<Proto> {
@@ -8,17 +8,22 @@ declare module '*wramp' { // TODO: remove *
     export function defineStore<Proto>(stateClass: { prototype: Proto }): StoreClass<Proto>;
 
     export interface EventData {
-        from: string;
-        method: string;
-        payload: [any];
+        types: string[],
+        originalClassName: string,
+        originalMethod: Function,
+        methodName: string,
+        method: Function,
+        payload: any[],
     }
+
     export interface UpdateData extends EventData {
         includes: [UpdateData];
     }
+
     export interface EffectData extends EventData {}
 
-    export interface WatcherConfig<S extends Store<any>> {
-        subStores(store: S): [Store<any>];
+    export interface WatcherConfig {
+        subWatchers: [StoreWatcher<any>];
     }
 
     export class StoreWatcher<S extends Store<any>> {

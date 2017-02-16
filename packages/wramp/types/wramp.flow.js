@@ -4,17 +4,22 @@ declare module 'wramp' {
   declare function defineStore<State>(stateClass: Class<State>): Class<Store<State>>;
 
   declare interface EventData {
-    from: string;
-    method: string;
-    payload: [any];
+    types: string[],
+    originalClassName: string,
+    originalMethod: Function,
+    methodName: string,
+    method: Function,
+    payload: any[],
   }
+
   declare interface UpdateData extends EventData {
     includes: [UpdateData];
   }
+
   declare interface EffectData extends EventData {}
 
-  declare interface WatcherConfig<S: Store<any>> {
-    subStores(store: S): [Store<any>];
+  declare interface WatcherConfig {
+    subWatchers: [StoreWatcher<any>];
   }
 
   declare class StoreWatcher<S: Store<any>> {

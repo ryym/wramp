@@ -4,6 +4,7 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 import TodoState from './TodoState';
 import InputState from './InputState';
 import Todo from '../models/Todo';
+import * as actions from '../actions'
 
 export default class AppState {
   todoList: TodoState;
@@ -32,5 +33,16 @@ export default class AppState {
       return todoList.getActiveTodos();
     }
     return [];
+  }
+
+  $dispatch(action) {
+    const { todoList } = this
+    switch (action.type) {
+      case actions.ADD_TODO:
+        return todoList.$addTodo(action.payload.title)
+      default:
+        console.log('AAAA')
+      // case EDIT_TODO:
+    }
   }
 }

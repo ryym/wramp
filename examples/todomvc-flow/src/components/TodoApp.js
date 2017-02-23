@@ -11,17 +11,21 @@ type TodoAppProps = {
   addTodo: (title: string) => void,
 }
 
-const TodoApp = ({ addTodo }: TodoAppProps) => {
+const TodoApp = ({ dispatch }: TodoAppProps) => {
+  //       <Header addTodo={addTodo} />
   return (
     <div>
-      <Header addTodo={addTodo} />
+      <Header dispatch={dispatch} />
       <MainSection />
     </div>
   );
 };
 
-const propsMapper = ({ todoList }: AppState) => (): TodoAppProps => ({
-  addTodo: todoList.$addTodo,
+// const propsMapper = ({ todoList }: AppState) => (): TodoAppProps => ({
+//   addTodo: todoList.$addTodo,
+// });
+const propsMapper = (store: AppState) => (): TodoAppProps => ({
+  dispatch: store.$dispatch,
 });
 
 export default connect(TodoApp, { propsMapper });
